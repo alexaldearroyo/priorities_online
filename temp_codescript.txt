@@ -1,6 +1,15 @@
 src/index.html:
 
-<body class="flex flex-col h-full">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priorities Online</title>
+</head>
+
+<body class="flex flex-col">
 
     <div id="title" class="bg-stone-200 flex-center">
         Priorities Online
@@ -10,23 +19,25 @@ src/index.html:
 
         <div id="mainBox" class="bg-slate-50 shadow-lg flex-center">
             
+            <div id="burgerMenu" class="bg-stone-200 flex-center cursor-pointer">
+                <i class="fas fa-bars text-stone-400 rotate-icon"></i>
+            </div>
+
             <div id="sideBarContainer" class="bg-zinc-300 flex-center">
                 <div id="sideBarHeader">
-                    <div id="burgerMenu" class="bg-stone-100 flex-center cursor-pointer">
-                        <i class="fas fa-bars text-stone-400"></i>
-                    </div>
                 </div>
                 <div id="sideBarContent">Side Bar Content</div>
             </div>
-            
+
             <div id="contentBoxContainer" class="bg-slate-50 flex-center">Main Content</div>
 
         </div>
-        
+
     </div>
 
-    <div id="footer" class="flex-center flex-2 font-arial text-stone-400 text-xs">
-        <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer" class="hover:scale-125 hover:text-stone-500">
+    <div id="footer" class="flex-center flex-2 font-arial text-stone-400">
+        <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer"
+            class="hover:scale-125 hover:text-stone-500">
             <i class="fab fa-github"></i>
         </a>
         <span>Alex Arroyo © 2023</span>
@@ -34,18 +45,28 @@ src/index.html:
 
 </body>
 
+</html>
 ----------------------------------------
 
 src/index.js:
 
 import "./styles.css";
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import $ from 'jquery';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import $ from "jquery";
 
-$(document).ready(function() {
-    $('#burgerMenu').click(function() {
-        console.log('Burger menu clicked!');
-    });
+$(function () {
+  $("#burgerMenu").on("click", function () {
+    var icon = $(this).find("i");
+
+    if (icon.hasClass('rotated')) {
+        icon.removeClass('rotated');
+    } else {
+        icon.addClass('rotated');
+    }
+
+    $("#sideBarContainer").toggle();
+    $("#contentBoxContainer").addClass("expanded");
+  });
 });
 
 ----------------------------------------
@@ -58,6 +79,17 @@ src/styles.css:
 @tailwind components;
 @tailwind utilities;
 
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+
+    font-size: 1.5rem;
+}
+
+
 .flex-center {
     display: flex;
     justify-content: center;
@@ -67,7 +99,7 @@ src/styles.css:
 #title {
     flex: 3;
     color: #71717a; /* Color Tailwind stone-500 */
-    font-size: 1.5rem; 
+    font-size: 2.25rem; 
 }
 
 #mainContainer {
@@ -81,6 +113,7 @@ src/styles.css:
     border-radius: 40px;
     display: flex;
     align-items: flex-start;
+    position: relative;
 }
 
 #sideBarContainer {
@@ -102,13 +135,14 @@ src/styles.css:
 }
 
 #burgerMenu {
-    width: 2.25rem;
-    height: 2.25rem;
-    margin-top: 1rem;
-    margin-left: 1.25rem;
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
     border-radius: 50%;
     align-self: flex-start;
-    font-size: 1.25rem;
+    font-size: 2rem;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
@@ -128,44 +162,44 @@ src/styles.css:
     display: flex;
     flex-direction: column;
     justify-content: flex-start; 
-    padding-top: 2.25rem;
-    padding-left: 2.25rem;
+    padding-top: 3.75rem;
+    padding-left: 3.75rem;
 }
 
 #contentBoxContainer {
     width: calc(100% * 15/21);
-    border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px;
+    border-top-right-radius: 47px;
+    border-bottom-right-radius: 47px;
     height: 100%;
 }
 
 #footer {
     flex: 2;
     background-color: #D9D9D9;
+    font-size: 1.25rem;
 }
 
 #footer .fa-github {
-    margin-right: 0.75rem;
-    font-size: 1.25rem;
+    margin-right: 1.25rem;
+    font-size: 2rem;
 }
 
 .font-arial {
     font-family: Arial, sans-serif;
 }
 
-
-.full-width {
+.expand {
     width: 100%;
-}
-
-.rounded-corners {
     border-top-left-radius: 47px;
     border-bottom-left-radius: 47px;
 }
 
-.hidden {
-    display: none;
+.rotate-icon {
+    transition: transform 0.5s ease-in-out;
 }
 
+.rotated {
+    transform: rotate(180deg);
+}
 ----------------------------------------
 
