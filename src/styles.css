@@ -24,8 +24,8 @@ body {
 #title {
     flex: 3;
     color: #71717a;
-    /* Color Tailwind stone-500 */
     font-size: 2.25rem;
+    font-family: monospace;
 }
 
 #mainContainer {
@@ -61,14 +61,14 @@ body {
 }
 
 #burgerMenu {
-    width: 4rem;
-    height: 4rem;
+    width: 3.75rem;
+    height: 3.75rem;
     position: absolute;
     top: 1.25rem;
     left: 1.25rem;
     border-radius: 50%;
     align-self: flex-start;
-    font-size: 2rem;
+    font-size: 1.75rem;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
@@ -88,8 +88,21 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 3.75rem;
+    padding-top: 3rem;
     padding-left: 3.75rem;
+    color: #4B5563;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+#sideBarContent > div {
+    padding-bottom: 0.5rem;
+
+}
+
+#sideBarContent > div i {
+    width: 30px;
+    margin-right: 0.5rem
 }
 
 #contentBoxContainer {
@@ -128,8 +141,6 @@ body {
     transform: rotate(180deg);
 }
 
-/* Estilos para pantallas con un ancho menor a 768px */
-/* Estilos para pantallas con un ancho menor a 768px */
 @media (max-width: 768px) {
     #sideBarContainer {
         display: none;
@@ -137,7 +148,15 @@ body {
         height: 100%;
         border-radius: 40px;
         position: absolute;
+    }
 
+    #sideBarContent {
+        align-items: flex-start;
+        font-size: 1.75rem;
+    }
+    #sideBarContent > div {
+        padding-bottom: 1.75rem;
+        padding-left: 25%; 
     }
 
     #burgerMenu {
