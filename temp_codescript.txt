@@ -1,0 +1,131 @@
+package.json:
+
+{
+  "name": "empty-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rm dist/bundle.js",
+    "build-dev": "webpack --mode development",
+    "build-prod": "webpack --mode production",
+    "start": "webpack serve --mode development --open",
+    "build": "webpack --mode development"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.3.5"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "postcss-loader": "^7.3.3",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
+
+----------------------------------------
+
+postcss.config.js:
+
+module.exports = {
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer')
+  ]
+};
+
+----------------------------------------
+
+tailwind.config.js:
+
+module.exports = {
+    content: [
+      "./src/**/*.{html,js,jsx,ts,tsx}", // Ajusta la ruta según la estructura de tu proyecto
+      // Puedes agregar más rutas si es necesario
+    ],
+    // ... el resto de tu configuración
+  };
+  
+----------------------------------------
+
+webpack.config.js:
+
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const config = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          'postcss-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      templateContent: ({ htmlWebpackPlugin }) => '<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>' + htmlWebpackPlugin.options.title + '</title></head><body><div id=\"app\"></div></body></html>',
+      filename: 'index.html',
+    })
+  ]
+};
+
+module.exports = config;
+
+----------------------------------------
+
+src/index.html:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+</head>
+<body class="bg-stone-200 flex justify-center items-center h-screen">
+    <h1 class="text-xl font-bold">This is a test</h1>
+    <script src="./index.js"></script>
+</body>
+</html>
+
+
+----------------------------------------
+
+src/index.js:
+
+import "./styles.css";
+console.log("hello world!");
+----------------------------------------
+
+src/styles.css:
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+----------------------------------------
+
