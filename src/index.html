@@ -1,25 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<body class="flex flex-col h-full">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page</title>
-</head>
-
-<body class="flex flex-col h-screen">
-
-    <div id="title" class="bg-stone-200 flex justify-center items-center">
+    <div id="title" class="bg-stone-200 flex-center">
         Priorities Online
     </div>
 
-    <div id="mainContainer" class="bg-stone-200 flex justify-center items-start">
-        <div id="mainBox" class="bg-slate-50 shadow-lg mx-auto my-0">
-            <p>Main Box</p>
+    <div id="mainContainer" class="bg-stone-200 flex-center flex-col">
+
+        <div id="mainBox" class="bg-slate-50 shadow-lg flex-center">
+            
+            <div id="sideBarContainer" class="bg-zinc-300 flex-center">
+                <div id="sideBarHeader">
+                    <div id="burgerMenu" class="bg-stone-100 flex-center cursor-pointer">
+                        <i class="fas fa-bars text-stone-400"></i>
+                    </div>
+                </div>
+                <div id="sideBarContent">Side Bar Content</div>
+            </div>
+            
+            <div id="contentBoxContainer" class="bg-slate-50 flex-center">Main Content</div>
+
         </div>
+        
     </div>
 
-    <div id="footer" class="flex flex-2 justify-center items-center font-arial text-stone-400 text-sm">
+    <div id="footer" class="flex-center flex-2 font-arial text-stone-400">
         <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer" class="hover:scale-125 hover:text-stone-500">
             <i class="fab fa-github"></i>
         </a>
@@ -27,5 +31,3 @@
     </div>
 
 </body>
-
-</html>

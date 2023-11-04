@@ -1,131 +1,171 @@
-package.json:
-
-{
-  "name": "empty-project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "scripts": {
-    "clean": "rm dist/bundle.js",
-    "build-dev": "webpack --mode development",
-    "build-prod": "webpack --mode production",
-    "start": "webpack serve --mode development --open",
-    "build": "webpack --mode development"
-  },
-  "dependencies": {
-    "tailwindcss": "^3.3.5"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.16",
-    "css-loader": "^6.8.1",
-    "html-webpack-plugin": "^5.5.3",
-    "postcss-loader": "^7.3.3",
-    "style-loader": "^3.3.3",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
-  }
-}
-
-----------------------------------------
-
-postcss.config.js:
-
-module.exports = {
-  plugins: [
-    require('tailwindcss'),
-    require('autoprefixer')
-  ]
-};
-
-----------------------------------------
-
-tailwind.config.js:
-
-module.exports = {
-    content: [
-      "./src/**/*.{html,js,jsx,ts,tsx}", // Ajusta la ruta según la estructura de tu proyecto
-      // Puedes agregar más rutas si es necesario
-    ],
-    // ... el resto de tu configuración
-  };
-  
-----------------------------------------
-
-webpack.config.js:
-
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const config = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1
-            }
-          },
-          'postcss-loader'
-        ]
-      }
-    ]
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      templateContent: ({ htmlWebpackPlugin }) => '<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>' + htmlWebpackPlugin.options.title + '</title></head><body><div id=\"app\"></div></body></html>',
-      filename: 'index.html',
-    })
-  ]
-};
-
-module.exports = config;
-
-----------------------------------------
-
 src/index.html:
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page</title>
-</head>
-<body class="bg-stone-200 flex justify-center items-center h-screen">
-    <h1 class="text-xl font-bold">This is a test</h1>
-    <script src="./index.js"></script>
-</body>
-</html>
+<body class="flex flex-col h-full">
 
+    <div id="title" class="bg-stone-200 flex-center">
+        Priorities Online
+    </div>
+
+    <div id="mainContainer" class="bg-stone-200 flex-center flex-col">
+
+        <div id="mainBox" class="bg-slate-50 shadow-lg flex-center">
+            
+            <div id="sideBarContainer" class="bg-zinc-300 flex-center">
+                <div id="sideBarHeader">
+                    <div id="burgerMenu" class="bg-stone-100 flex-center cursor-pointer">
+                        <i class="fas fa-bars text-stone-400"></i>
+                    </div>
+                </div>
+                <div id="sideBarContent">Side Bar Content</div>
+            </div>
+            
+            <div id="contentBoxContainer" class="bg-slate-50 flex-center">Main Content</div>
+
+        </div>
+        
+    </div>
+
+    <div id="footer" class="flex-center flex-2 font-arial text-stone-400 text-xs">
+        <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer" class="hover:scale-125 hover:text-stone-500">
+            <i class="fab fa-github"></i>
+        </a>
+        <span>Alex Arroyo © 2023</span>
+    </div>
+
+</body>
 
 ----------------------------------------
 
 src/index.js:
 
 import "./styles.css";
-console.log("hello world!");
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import $ from 'jquery';
+
+$(document).ready(function() {
+    $('#burgerMenu').click(function() {
+        console.log('Burger menu clicked!');
+    });
+});
+
 ----------------------------------------
 
 src/styles.css:
 
+/* src/styles.css */
+
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#title {
+    flex: 3;
+    color: #71717a; /* Color Tailwind stone-500 */
+    font-size: 1.5rem; 
+}
+
+#mainContainer {
+    flex: 14;
+    justify-content: flex-start;
+}
+
+#mainBox {
+    height: calc(100% * 13/14);
+    width: 70%;
+    border-radius: 40px;
+    display: flex;
+    align-items: flex-start;
+}
+
+#sideBarContainer {
+    width: calc(100% * 6/21);
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#sideBarHeader {
+    height: calc(100% * 2/14);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#burgerMenu {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-top: 1rem;
+    margin-left: 1.25rem;
+    border-radius: 50%;
+    align-self: flex-start;
+    font-size: 1.25rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+#burgerMenu:hover i.fas {
+    color: #71717a;
+}
+
+#burgerMenu:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+#sideBarContent {
+    height: calc(100% * 12/14);
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    padding-top: 2.25rem;
+    padding-left: 2.25rem;
+}
+
+#contentBoxContainer {
+    width: calc(100% * 15/21);
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    height: 100%;
+}
+
+#footer {
+    flex: 2;
+    background-color: #D9D9D9;
+}
+
+#footer .fa-github {
+    margin-right: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.font-arial {
+    font-family: Arial, sans-serif;
+}
+
+
+.full-width {
+    width: 100%;
+}
+
+.rounded-corners {
+    border-top-left-radius: 47px;
+    border-bottom-left-radius: 47px;
+}
+
+.hidden {
+    display: none;
+}
+
 ----------------------------------------
 
