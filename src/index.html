@@ -16,7 +16,7 @@
     <div id="mainContainer" class="bg-stone-200 flex-center flex-col">
 
         <div id="mainBox" class="bg-slate-50 shadow-lg flex-center">
-            
+
             <div id="burgerMenu" class="bg-stone-200 flex-center cursor-pointer">
                 <i class="fas fa-bars text-stone-400 rotate-icon"></i>
             </div>
@@ -24,12 +24,17 @@
             <div id="sideBarContainer" class="bg-zinc-300 flex-center">
                 <div id="sideBarHeader">
                 </div>
-                <div id="sideBarContent">
+                <div id="sideBarMenu">
                     <div id="tasksMenu">
                         <i class="fas fa-tasks text-stone-400"></i> Tasks
                     </div>
                     <div id="prioritiesMenu">
                         <i class="fas fa-chevron-right text-stone-400"></i> Priorities
+                        <div id="prioritiesSubMenu" class="hidden">
+                            <div id="highPriorityMenu">High</div>
+                            <div id="mediumPriorityMenu">Medium</div>
+                            <div id="lowPriorityMenu">Low</div>
+                        </div>
                     </div>
                     <div id="projectsMenu">
                         <i class="fas fa-folder text-stone-400"></i> Projects
@@ -40,13 +45,13 @@
                 </div>
             </div>
 
-            <div id="contentBoxContainer" class="bg-slate-50 flex-center">Main Content</div>
+            <div id="contentBox" class="bg-slate-50 flex-center"></div>
 
         </div>
 
     </div>
 
-    <div id="footer" class="flex-2 font-arial text-stone-400 bg-stone-200">
+    <div id="footer" class="flex-2 font-arial text-zinc-400 bg-zinc-300">
         <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer">
             <i class="fab fa-github hover:scale-125 hover:text-stone-500"></i>
         </a>
