@@ -13,21 +13,21 @@ function loadTasksModule() {
     class: "flex-center h-5/6",
   }).html("Task List Container");
 
-  const addButton = $("<button>", {
-    id: "addButton",
+  const addTaskButton = $("<button>", {
+    id: "addTaskButton",
     class: "addButton",
     text: "Add Task",
   });
 
   $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
-  taskButtonContainer.append(addButton);
+  taskButtonContainer.append(addTaskButton);
 
   // ADD TASK BUTTON AND ADD TASK BOX
 
-  addButton.on("click", function () {
+  addTaskButton.on("click", function () {
     const addTaskBox = $("<div>", {
-      id: "addTask",
-      class: "addBox flex flex-col md:flex-row w-full justify-between gap-x-5",
+      id: "addTaskBox",
+      class: "addBox flex flex-col md:flex-row w-full justify-between gap-x-6",
     });
 
     const addTaskBoxLeft = $("<div>", {

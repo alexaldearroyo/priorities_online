@@ -52,7 +52,7 @@ body {
     flex-direction: column;
     box-sizing: border-box;
     overflow-y: auto;
-    max-height: 100%; 
+    max-height: 100%;
 }
 
 
@@ -65,13 +65,13 @@ body {
     background-color: #A8A29E;
     border-radius: 6px;
     background-clip: content-box;
-    border: 4px solid transparent; 
+    border: 4px solid transparent;
 }
 
-#sideBar::-webkit-scrollbar-track{
+#sideBar::-webkit-scrollbar-track {
     border-radius: 15px;
-    margin: 40px;    
-   }
+    margin: 40px;
+}
 
 #sideBarHeader {
     height: calc(100% * 2/14);
@@ -117,17 +117,17 @@ body {
     font-size: 1.5rem;
 }
 
-#sideBarMenu > div {
+#sideBarMenu>div {
     padding-bottom: 0.5rem;
 
 }
 
-#sideBarMenu > div i {
+#sideBarMenu>div i {
     width: 30px;
     margin-right: 0.5rem;
 }
 
-#prioritiesSubMenu > div {
+#prioritiesSubMenu>div {
     padding-top: 0.5rem;
     margin-left: 2.5rem;
     color: #78716C;
@@ -136,18 +136,18 @@ body {
     font-size: 1.25rem;
 }
 
-#prioritiesSubMenu > div:last-child {
+#prioritiesSubMenu>div:last-child {
     padding-bottom: 0.75rem;
 }
 
 /* Bullet points */
-#prioritiesSubMenu > div::before {
+#prioritiesSubMenu>div::before {
     content: '';
     display: inline-block;
     margin-right: 1rem;
-    height: 0.75rem; 
-    width: 0.75rem; 
-    background-color: #78716C; 
+    height: 0.75rem;
+    width: 0.75rem;
+    background-color: #78716C;
     border-radius: 50%;
 }
 
@@ -245,9 +245,10 @@ body {
         align-items: flex-start;
         font-size: 1.5rem;
     }
-    #sideBarMenu > div {
+
+    #sideBarMenu>div {
         padding-bottom: 1.5rem;
-        padding-left: 25%; 
+        padding-left: 25%;
     }
 
     #prioritiesSubMenu {
@@ -255,12 +256,12 @@ body {
         margin-left: 0;
     }
 
-    #prioritiesSubMenu > div {
+    #prioritiesSubMenu>div {
         align-items: center;
         margin-left: 2rem;
     }
 
-    #prioritiesSubMenu > div:last-child {
+    #prioritiesSubMenu>div:last-child {
         padding-bottom: 0;
     }
 
@@ -269,15 +270,18 @@ body {
         top: 1.25rem;
         left: 1.25rem;
         font-size: 1.5rem;
-    }    
+    }
 
-    #addTaskBoxLeft, #addTaskBoxRight, #addTaskBoxLeftBottom {
+    #addTaskBoxLeft,
+    #addTaskBoxRight,
+    #addTaskBoxLeftBottom {
         width: 100%;
-      }
-    
-      .selector {
-        margin-bottom: 10px; /* Añade espacio entre selectores cuando están apilados */
-      }
+    }
+
+    .selector {
+        margin-bottom: 10px;
+        /* Añade espacio entre selectores cuando están apilados */
+    }
 
 
 }
@@ -303,8 +307,8 @@ body {
 
 .addButton:hover {
     background-color: #cacaca;
-    color: #78716C;
-    transform: scale(1.05);
+    color: black;
+    transform: scale(1.07);
 }
 
 .addBox {
@@ -321,7 +325,7 @@ body {
 .selector {
     border-radius: 10px;
     background-color: #BFDBFE;
-    appearance: none; 
+    appearance: none;
     padding: 5px 10px;
     flex: 1;
     color: #4B5563;
@@ -329,12 +333,15 @@ body {
     background-repeat: no-repeat;
     background-position: right .7em center;
     padding-right: 2.5em;
-    height: 2.5rem; 
+    height: 2.5rem;
     font-size: 1rem;
+}
 
-  }
-  
-  input[type="date"]:not(.has-date) {
+.selector:hover {
+    transform: scale(1.1);
+}
+
+input[type="date"]:not(.has-date) {
     color: transparent;
 }
 
@@ -371,14 +378,26 @@ input[type="date"].has-date::before {
     height: 2.5rem;
     font-size: 1rem;
     color: #374151;
-  }
-  
-  .cancelButton {
+}
+
+.createButton:hover {
+    background-color: #cacaca;
+    color: black;
+    transform: scale(1.07);
+}
+
+.cancelButton {
     border-radius: 10px;
     background-color: #BE123C;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    height: 2.5rem; 
+    height: 2.5rem;
     color: #FECDD3;
     font-size: 1rem;
 
-  }
+}
+
+.cancelButton:hover {
+    background-color: #9f1239;
+    color: white;
+    transform: scale(1.07);
+}
