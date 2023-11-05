@@ -18,7 +18,7 @@ $(function () {
       icon.addClass("rotated");
     }
 
-    $("#sideBarContainer").toggle();
+    $("#sideBar").toggle();
     $("#contentBox").toggleClass("expanded");
   });
 
@@ -27,10 +27,10 @@ $(function () {
     $(this).addClass("active");
 
     if ($(window).width() < 1200) {
-        if (this.id !== "prioritiesMenu") {
-            $("#sideBarContainer").hide();
-            $("#contentBox").removeClass("expanded");
-        }
+      if (this.id !== "prioritiesMenu") {
+        $("#sideBar").hide();
+        $("#contentBox").removeClass("expanded");
+      }
     }
 
     switch (this.id) {
@@ -57,7 +57,7 @@ $(function () {
 
   $("#prioritiesSubMenu > div").on("click", function (e) {
     e.stopPropagation();
-});
+  });
 
   $(document).on("click", function () {
     $("#prioritiesSubMenu").hide();

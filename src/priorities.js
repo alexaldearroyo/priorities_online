@@ -1,6 +1,8 @@
 function loadPrioritiesModule() {
-    $('#contentBox').empty(); 
-    $('#contentBox').html('Priorities Module Content');
+    $('#contentBoxHeader').empty();
+    $('#contentBoxMain').empty(); 
+    $('#contentBoxHeader').html('Priorities');
+    $('#contentBoxMain').html('Priorities Module Content');
 }
 
 export default loadPrioritiesModule;

@@ -1,6 +1,8 @@
 function loadProjectsModule() {
-    $('#contentBox').empty(); 
-    $('#contentBox').html('Projects Module Content');
+    $('#contentBoxHeader').empty();
+    $('#contentBoxMain').empty(); 
+    $('#contentBoxHeader').html('Projects');
+    $('#contentBoxMain').html('Projects Module Content');
 }
 
 export default loadProjectsModule;

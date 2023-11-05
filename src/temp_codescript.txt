@@ -28,7 +28,7 @@
                 <i class="fas fa-bars text-stone-400 rotate-icon"></i>
             </div>
 
-            <div id="sideBarContainer" class="bg-zinc-300 flex-center">
+            <div id="sideBar" class="bg-zinc-300 flex-center">
                 <div id="sideBarHeader">
                 </div>
                 <div id="sideBarMenu">
@@ -87,7 +87,7 @@ $(function () {
           icon.addClass('rotated');
       }
   
-      $("#sideBarContainer").toggle();
+      $("#sideBar").toggle();
       $("#contentBox").toggleClass("expanded");
     });
 
@@ -176,7 +176,7 @@ body {
     position: relative;
 }
 
-#sideBarContainer {
+#sideBar {
     width: calc(100% * 6/21);
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
@@ -188,19 +188,19 @@ body {
 }
 
 
-#sideBarContainer::-webkit-scrollbar {
+#sideBar::-webkit-scrollbar {
     width: 15px;
     background-color: transparent;
 }
 
-#sideBarContainer::-webkit-scrollbar-thumb {
+#sideBar::-webkit-scrollbar-thumb {
     background-color: #A8A29E;
     border-radius: 6px;
     background-clip: content-box;
     border: 4px solid transparent; 
 }
 
-#sideBarContainer::-webkit-scrollbar-track{
+#sideBar::-webkit-scrollbar-track{
     border-radius: 15px;
     margin: 40px;    
    }
@@ -333,7 +333,7 @@ body {
 }
 
 @media (max-width: 1200px) {
-    #sideBarContainer {
+    #sideBar {
         display: none;
         width: 100%;
         height: 100%;

@@ -1,6 +1,8 @@
 function loadDatesModule() {
-    $('#contentBox').empty(); 
-    $('#contentBox').html('Dates Module Content');
+    $('#contentBoxHeader').empty();
+    $('#contentBoxMain').empty(); 
+    $('#contentBoxHeader').html('Dates');
+    $('#contentBoxMain').html('Dates Module Content');
 }
 
 export default loadDatesModule;
