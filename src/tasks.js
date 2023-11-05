@@ -135,6 +135,13 @@ function loadTasksModule() {
       text: "Cancel",
     });
 
+    // TEST
+    cancelTaskButton.on("click", function() {
+        $("#addTaskBox").remove();
+        $("#contentBoxMain").prepend(taskButtonContainer);
+        $("#taskButtonContainer").append(addTaskButton);
+    });
+
     addTaskBoxLRightBottom.append(cancelTaskButton);
 
 
