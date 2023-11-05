@@ -16,8 +16,6 @@ function loadTasksModule() {
   $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
 
   $("#contentBoxMain").on("click", "#addTaskButton", function() {
-    
-    // ... Toda la lógica para crear y mostrar addTaskBox ...
 
     const addTaskBox = $("<div>", {
         id: "addTaskBox",
@@ -99,7 +97,7 @@ function loadTasksModule() {
   
       const addTaskBoxRight = $("<div>", {
         id: "addTaskBoxRight",
-        class: "flex flex-1 flex-col items-center",
+        class: "flex flex-1 flex-col items-center gap-y-2",
         style: "flex: 3;",
       });
   

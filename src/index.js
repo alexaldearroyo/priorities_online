@@ -29,7 +29,7 @@ $(function () {
     if ($(window).width() < 1200) {
       if (this.id !== "prioritiesMenu") {
         $("#sideBar").hide();
-        $("#contentBox").removeClass("expanded");
+        $("#contentBox").removeClass("expand");
       }
     }
 
