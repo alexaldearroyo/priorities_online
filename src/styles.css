@@ -271,7 +271,7 @@ body {
         font-size: 1.5rem;
     }    
 
-    #addTaskBoxLeft, #addTaskBoxRight, #addTaskBoxBottom {
+    #addTaskBoxLeft, #addTaskBoxRight, #addTaskBoxLeftBottom {
         width: 100%;
       }
     
@@ -321,7 +321,6 @@ body {
 .selector {
     border-radius: 10px;
     background-color: #BFDBFE;
-    flex: 1;
     appearance: none; 
     padding: 5px 10px;
     flex: 1;
@@ -331,6 +330,8 @@ body {
     background-position: right .7em center;
     padding-right: 2.5em;
     height: 2.5rem; 
+    font-size: 1rem;
+
   }
   
   input[type="date"]:not(.has-date) {
@@ -362,3 +363,22 @@ input[type="date"].has-date::before {
     background-color: #0EA5E9;
     color: #374151;
 }
+
+.createButton {
+    border-radius: 10px;
+    background-color: #D4D4D8;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 2.5rem;
+    font-size: 1rem;
+    color: #374151;
+  }
+  
+  .cancelButton {
+    border-radius: 10px;
+    background-color: #BE123C;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 2.5rem; 
+    color: #FECDD3;
+    font-size: 1rem;
+
+  }

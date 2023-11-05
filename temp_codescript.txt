@@ -38,8 +38,8 @@ function loadTasksModule() {
       style: "flex: 10;",
     });
 
-    const addTaskBoxTop = $("<div>", {
-      id: "addTaskBoxTop",
+    const addTaskBoxLeftTop = $("<div>", {
+      id: "addTaskBoxLeftTop",
       class: "h-1/2 w-full flex justify-center items-center",
     });
 
@@ -50,10 +50,10 @@ function loadTasksModule() {
       css: { "border-radius": "10px" },
     });
 
-    addTaskBoxTop.append(inputBox);
+    addTaskBoxLeftTop.append(inputBox);
 
-    const addTaskBoxBottom = $("<div>", {
-      id: "addTaskBoxBottom",
+    const addTaskBoxLeftBottom = $("<div>", {
+      id: "addTaskBoxLeftBottom",
       class: "flex justify-between items-center py-2 w-full",
       class: "h-1/2 w-full flex justify-center items-center pt-2",
     });
@@ -70,9 +70,9 @@ function loadTasksModule() {
       class: "selector",
     }).html("<option>Project</option>");
 
-    addTaskBoxBottom.append(prioritySelector, dateSelector, projectSelector);
+    addTaskBoxLeftBottom.append(prioritySelector, dateSelector, projectSelector);
 
-    addTaskBoxLeft.append(addTaskBoxTop, addTaskBoxBottom);
+    addTaskBoxLeft.append(addTaskBoxLeftTop, addTaskBoxLeftBottom);
 
     const addTaskBoxRight = $("<div>", {
       id: "addTaskBoxRight",
