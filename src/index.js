@@ -19,7 +19,7 @@ $(function () {
     }
 
     $("#sideBar").toggle();
-    $("#contentBox").toggleClass("expanded");
+    $("#contentBox").toggleClass("expand");
   });
 
   $("#sideBarMenu > div").on("click", function () {

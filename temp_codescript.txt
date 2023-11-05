@@ -1,153 +1,102 @@
-src/index.html:
+src/tasks.js:
 
-<!DOCTYPE html>
-<html lang="en">
+function loadTasksModule() {
+  $("#contentBoxHeader").empty();
+  $("#contentBoxMain").empty();
+  $("#contentBoxHeader").html("Tasks");
+  $("#contentBoxMain").addClass("flex flex-col");
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Priorities Online</title>
-</head>
+  const taskButtonContainer = $("<div>", {
+    id: "taskButtonContainer",
+    class: "flex-center h-1/6 w-full mt-4",
+  });
+  const tasksListContainer = $("<div>", {
+    id: "tasksListContainer",
+    class: "flex-center h-5/6",
+  }).html("Task List Container");
 
-<body class="flex flex-col">
-
-    <div id="title" class="bg-stone-200 flex-center">
-        Priorities Online
-    </div>
-
-    <div id="mainContainer" class="bg-stone-200 flex-center flex-col">
-
-        <div id="mainBox" class="bg-slate-50 shadow-lg flex-center">
-
-            <div id="burgerMenu" class="bg-stone-200 flex-center cursor-pointer">
-                <i class="fas fa-bars text-stone-400 rotate-icon"></i>
-            </div>
-
-            <div id="sideBar" class="bg-zinc-300 flex-center">
-                <div id="sideBarHeader">
-                </div>
-                <div id="sideBarMenu">
-                    <div id="tasksMenu">
-                        <i class="fas fa-tasks text-stone-400"></i> Tasks
-                    </div>
-                    <div id="prioritiesMenu">
-                        <i class="fas fa-chevron-right text-stone-400"></i> Priorities
-                        <div id="prioritiesSubMenu" class="hidden">
-                            <div id="highPriorityMenu">High</div>
-                            <div id="mediumPriorityMenu">Medium</div>
-                            <div id="lowPriorityMenu">Low</div>
-                        </div>
-                    </div>
-                    <div id="projectsMenu">
-                        <i class="fas fa-folder text-stone-400"></i> Projects
-                    </div>
-                    <div id="datesMenu">
-                        <i class="fas fa-calendar text-stone-400"></i> Dates
-                    </div>
-                </div>
-            </div>
-
-            <div id="contentBox" class="bg-slate-50 flex-center">
-                <div id="contentBoxHeader" class="flex-center text-gray-700"></div>
-                <div id="contentBoxMain" class="flex-center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div id="footer" class="flex-2 font-arial text-zinc-400 bg-zinc-300">
-        <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-github hover:scale-125 hover:text-stone-400"></i>
-        </a>
-        <span>Alex Arroyo © 2023</span>
-    </div>
-
-</body>
-
-</html>
-----------------------------------------
-
-src/index.js:
-
-import "./styles.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import $ from "jquery";
-import loadDatesModule from "./dates.js";
-import loadTasksModule from "./tasks.js";
-import loadProjectsModule from "./projects.js";
-import loadPrioritiesModule from "./priorities.js";
-
-$(function () {
-  loadTasksModule();
-
-  $("#burgerMenu").on("click", function () {
-    var icon = $(this).find("i");
-
-    if (icon.hasClass("rotated")) {
-      icon.removeClass("rotated");
-    } else {
-      icon.addClass("rotated");
-    }
-
-    $("#sideBar").toggle();
-    $("#contentBox").toggleClass("expanded");
+  const addButton = $("<button>", {
+    id: "addButton",
+    class: "addButton",
+    text: "Add Task",
   });
 
-  $("#sideBarMenu > div").on("click", function () {
-    $("#sideBarMenu > div").removeClass("active");
-    $(this).addClass("active");
+  $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
+  taskButtonContainer.append(addButton);
 
-    if ($(window).width() < 1200) {
-      if (this.id !== "prioritiesMenu") {
-        $("#sideBar").hide();
-        $("#contentBox").removeClass("expanded");
-      }
-    }
+  // Add Task Box Structure
 
-    switch (this.id) {
-      case "tasksMenu":
-        loadTasksModule();
-        break;
-      case "prioritiesMenu":
-        loadPrioritiesModule();
-        break;
-      case "projectsMenu":
-        loadProjectsModule();
-        break;
-      case "datesMenu":
-        loadDatesModule();
-        break;
-    }
+  addButton.on("click", function () {
+    const addTaskBox = $("<div>", {
+      id: "addTask",
+      class: "addBox flex w-full justify-between",
+    });
+
+    const addTaskBoxLeft = $("<div>", {
+      id: "addTaskBoxLeft",
+      class: "w-10/13 flex flex-col items-center",
+      style: "flex: 10;",
+    });
+
+    const addTaskBoxTop = $("<div>", {
+      id: "addTaskBoxTop",
+      class: "h-1/2 w-full flex justify-center items-center",
+    });
+
+    const inputBox = $("<input>", {
+      type: "text",
+      class: "rounded-lg border-2 border-gray-700 bg-white w-full p-2 py-1 mb-2",
+      placeholder: "Enter task...",
+      css: { "border-radius": "10px" },
+    });
+
+    addTaskBoxTop.append(inputBox);
+
+    const addTaskBoxBottom = $("<div>", {
+      id: "addTaskBoxBottom",
+      class: "flex justify-between items-center py-2 w-full",
+      class: "h-1/2 w-full flex justify-center items-center pt-2",
+    });
+
+    const prioritySelector = $("<select>", {
+        class: "selector mr-5", 
+    }).html("<option>Priority</option>");
+
+    const dateSelector = $("<select>", {
+        class: "selector mr-5", 
+    }).html("<option>Date</option>");
+
+    const projectSelector = $("<select>", {
+      class: "selector",
+    }).html("<option>Project</option>");
+
+    addTaskBoxBottom.append(prioritySelector, dateSelector, projectSelector);
+
+    addTaskBoxLeft.append(addTaskBoxTop, addTaskBoxBottom);
+
+    const addTaskBoxRight = $("<div>", {
+      id: "addTaskBoxRight",
+      class: "w-3/13 flex flex-col justify-center items-center",
+      style: "flex: 3;",
+      text: "Buttons",
+    });
+
+    addTaskBox.append(addTaskBoxLeft, addTaskBoxRight);
+    taskButtonContainer.replaceWith(addTaskBox);
   });
+}
 
-  $("#prioritiesMenu").on("click", function (e) {
-    e.stopPropagation();
-    $("#prioritiesSubMenu").toggle();
-    $(this).find(".fa-chevron-right").toggleClass("rotated-down");
-  });
+export default loadTasksModule;
 
-  $("#prioritiesSubMenu > div").on("click", function (e) {
-    e.stopPropagation();
-  });
-
-  $(document).on("click", function () {
-    $("#prioritiesSubMenu").hide();
-    $("#prioritiesMenu .fa-chevron-right").removeClass("rotated-down");
-  });
-
-  $("#tasksMenu").on("click", function () {
-    loadTasksModule();
-  });
-
-  $("#projectsMenu").on("click", function () {
-    loadProjectsModule();
-  });
-
-  $("#datesMenu").on("click", function () {
-    loadDatesModule();
-  });
-});
+class Task {
+  constructor(id, name, priority, date, project) {
+    this.id = id;
+    this.name = name;
+    this.priority = priority;
+    this.date = date;
+    this.project = project;
+  }
+}
 
 ----------------------------------------
 
@@ -237,8 +186,8 @@ body {
 }
 
 #burgerMenu {
-    width: 3.75rem;
-    height: 3.75rem;
+    width: 3rem;
+    height: 3rem;
     position: absolute;
     top: 1.25rem;
     left: 1.25rem;
@@ -353,9 +302,13 @@ body {
 /* ANIMATIONS AND TRANSITIONS */
 
 .expand {
-    width: 100%;
+    width: 75%;
     border-top-left-radius: 47px;
     border-bottom-left-radius: 47px;
+}
+
+#contentBox.expand {
+    flex-grow: 1;
 }
 
 .rotate-icon {
@@ -456,93 +409,21 @@ body {
     width: 90%;
 }
 
-----------------------------------------
 
-src/tasks.js:
-
-function loadTasksModule() {
-  $("#contentBoxHeader").empty();
-  $("#contentBoxMain").empty();
-  $("#contentBoxHeader").html("Tasks");
-  $("#contentBoxMain").addClass("flex flex-col");
-
-  const taskButtonContainer = $("<div>", {
-    id: "taskButtonContainer",
-    class: "flex-center h-1/6 w-full mt-4",
-  });
-  const tasksListContainer = $("<div>", {
-    id: "tasksListContainer",
-    class: "flex-center h-5/6",
-  }).html("Task List Container");
-
-  const addButton = $("<button>", {
-    id: "addButton",
-    class: "addButton",
-    text: "Add Task",
-  });
-
-  $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
-  taskButtonContainer.append(addButton);
-
-  // Add Task Box Structure
-
-  addButton.on("click", function () {
-    const addTaskBox = $("<div>", {
-      id: "addTask",
-      class: "addBox flex w-full justify-between",
-    });
-
-    const addTaskBoxLeft = $("<div>", {
-      id: "addTaskBoxLeft",
-      class: "w-10/13 flex flex-col items-center",
-      style: "flex: 10;",
-    });
-
-    const addTaskBoxTop = $("<div>", {
-      id: "addTaskBoxTop",
-      class: "h-1/2 w-full flex justify-center items-center p-2",
-    });
-
-    const inputBox = $("<input>", {
-        type: "text",
-        class: "rounded-lg border-2 border-gray-700 bg-white w-full p-2 py-1",
-        placeholder: "Enter task...",
-        css: { "border-radius": "10px" },
-      });
-  
-      addTaskBoxTop.append(inputBox);
-
-    const addTaskBoxBottom = $("<div>", {
-      id: "addTaskBoxBottom",
-      class: "h-1/2 w-full flex justify-center items-center pt-2",
-      text: "Add Task Box Bottom",
-    });
-
-    addTaskBoxLeft.append(addTaskBoxTop, addTaskBoxBottom);
-
-    const addTaskBoxRight = $("<div>", {
-      id: "addTaskBoxRight",
-      class: "w-3/13 flex flex-col justify-center items-center",
-      style: "flex: 3;",
-      text: "Buttons",
-    });
-
-    addTaskBox.append(addTaskBoxLeft, addTaskBoxRight);
-    taskButtonContainer.replaceWith(addTaskBox);
-  });
-}
-
-export default loadTasksModule;
-
-class Task {
-  constructor(id, name, priority, date, project) {
-    this.id = id;
-    this.name = name;
-    this.priority = priority;
-    this.date = date;
-    this.project = project;
+.selector {
+    border-radius: 10px;
+    background-color: #BFDBFE;
+    flex: 1;
+    appearance: none; 
+    padding: 5px 10px;
+    flex: 1;
+    color: #4B5563;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.25em' height='1.25em' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .7em center;
+    padding-right: 2.5em; 
   }
-}
+  
 
 ----------------------------------------
 

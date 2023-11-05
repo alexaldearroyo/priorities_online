@@ -82,8 +82,8 @@ body {
 }
 
 #burgerMenu {
-    width: 3.75rem;
-    height: 3.75rem;
+    width: 3rem;
+    height: 3rem;
     position: absolute;
     top: 1.25rem;
     left: 1.25rem;
@@ -109,12 +109,12 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 3rem;
+    padding-top: 2rem;
     padding-left: 3.75rem;
     color: #4B5563;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 }
 
 #sideBarMenu > div {
@@ -198,9 +198,13 @@ body {
 /* ANIMATIONS AND TRANSITIONS */
 
 .expand {
-    width: 100%;
+    width: 75%;
     border-top-left-radius: 47px;
     border-bottom-left-radius: 47px;
+}
+
+#contentBox.expand {
+    flex-grow: 1;
 }
 
 .rotate-icon {
@@ -265,7 +269,17 @@ body {
         top: 1.25rem;
         left: 1.25rem;
         font-size: 1.5rem;
-    }
+    }    
+
+    #addTaskBoxLeft, #addTaskBoxRight, #addTaskBoxBottom {
+        width: 100%;
+      }
+    
+      .selector {
+        margin-bottom: 10px; /* Añade espacio entre selectores cuando están apilados */
+      }
+
+
 }
 
 @media screen and (max-height: 500px) {
@@ -299,4 +313,52 @@ body {
     padding: 20px;
     margin: 20px;
     width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.selector {
+    border-radius: 10px;
+    background-color: #BFDBFE;
+    flex: 1;
+    appearance: none; 
+    padding: 5px 10px;
+    flex: 1;
+    color: #4B5563;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.25em' height='1.25em' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .7em center;
+    padding-right: 2.5em;
+    height: 2.5rem; 
+  }
+  
+  input[type="date"]:not(.has-date) {
+    color: transparent;
+}
+
+input[type="date"]:not(.has-date)::before {
+    content: "Date";
+    color: #4B5563;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+input[type="date"].has-date::before {
+    content: "" !important;
+}
+
+.high-priority {
+    background-color: #EF4444;
+    color: #374151;
+}
+
+.medium-priority {
+    background-color: #FBBF24;
+    color: #374151;
+}
+
+.low-priority {
+    background-color: #0EA5E9;
+    color: #374151;
 }
