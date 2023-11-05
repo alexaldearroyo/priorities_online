@@ -250,7 +250,7 @@ body {
     transform: scale(1.07);
 }
 
-.addBox {
+.box {
     border: 1.5px solid #a8a29e;
     border-radius: 18px;
     padding: 20px;
