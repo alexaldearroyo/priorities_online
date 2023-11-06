@@ -8,11 +8,11 @@ function loadTasksModule() {
 
   const taskButtonContainer = $("<div>", {
     id: "taskButtonContainer",
-    class: "flex-center h-1/6 w-full mt-4 mb-4",
+    class: "flex-center h-1/6 w-full mt-4",
   });
   const tasksListContainer = $("<div>", {
     id: "tasksListContainer",
-    class: "listContainer flex-center h-5/6",
+    class: "listContainer flex-center h-5/6 mb-8",
   }).html("Task List Container");
 
   $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
