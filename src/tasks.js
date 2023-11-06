@@ -12,8 +12,8 @@ function loadTasksModule() {
   });
   const tasksListContainer = $("<div>", {
     id: "tasksListContainer",
-    class: "listContainer flex-center h-5/6",
-  }).html("Task List Container");
+    class: "listContainer h-5/6",
+  });
 
   $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
 
@@ -102,7 +102,7 @@ function loadTasksModule() {
 
     const addTaskBoxRight = $("<div>", {
       id: "addTaskBoxRight",
-      class: "flex flex-1 flex-col items-center",
+      class: "flex flex-1 flex-col items-center align-center",
       style: "flex: 3",
     });
 

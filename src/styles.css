@@ -12,8 +12,9 @@ html {
 body {
     height: 100%;
     font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
 }
-
 
 .flex-center {
     display: flex;
@@ -22,54 +23,88 @@ body {
 }
 
 #title {
-    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #71717a;
     font-size: 2.25rem;
     font-family: monospace;
-    min-height: 7rem; 
-    max-height: 7rem; 
+    min-height: 7.5rem; 
+    max-height: 7.5rem; 
 }
 
 #mainContainer {
-    flex: 14;
+    display: flex;
+    flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
+    flex: 14;
+
 }
 
 #mainBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: calc(100% * 13/14);
     width: 70%;
     border-radius: 40px;
-    display: flex;
     align-items: flex-start;
     position: relative;
     margin-bottom: 30px;
+    flex-grow: 1;  
+}
+
+#burgerMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    border-radius: 50%;
+    align-self: flex-start;
+    font-size: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+#burgerMenu:hover i.fas {
+    color: #71717a;
+}
+
+#burgerMenu:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 #sideBar {
-    width: calc(100% * 6/21);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 20rem;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
     height: 100%;
-    display: flex;
-    flex-direction: column;
     box-sizing: border-box;
     max-height: 100%;
     
 }
 
-
+/* may erase */
 #sideBar::-webkit-scrollbar {
     width: 15px;
     background-color: transparent;
 }
-
 #sideBar::-webkit-scrollbar-thumb {
     background-color: #A8A29E;
     border-radius: 6px;
     background-clip: content-box;
     border: 4px solid transparent;
 }
-
 #sideBar::-webkit-scrollbar-track {
     border-radius: 15px;
     margin: 40px;
@@ -83,28 +118,6 @@ body {
     justify-content: flex-start;
     overflow-y: auto;
     margin-bottom: 0.75rem;
-}
-
-#burgerMenu {
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
-    border-radius: 50%;
-    align-self: flex-start;
-    font-size: 1.5rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-}
-
-#burgerMenu:hover i.fas {
-    color: #71717a;
-}
-
-#burgerMenu:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 #sideBarMenu {
@@ -164,19 +177,21 @@ body {
 }
 
 #contentBox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
     width: 90%;
     height: 100%;
     border-top-right-radius: 47px;
     border-bottom-right-radius: 47px;
     min-height: calc(100% * 11.5/14);
-    /* display: flex; */
-    justify-content: flex-start;
-    flex-direction: column;
-    overflow-x: auto;
-    overflow-y: auto;
 }
 
 #contentBoxHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 2rem;
     padding-top: 3rem;
     padding-bottom: 1rem;
@@ -184,22 +199,31 @@ body {
     font-family: 'Arial', sans-serif;
     font-size: 1.5rem;
     font-weight: 100;
-    /* padding-top: 1rem; */
 }
 
 #contentBoxMain {
-    height: calc(100% * 11.5/14);
+    display: flex;
+    /* flex-wrap: wrap; */
+    /* flex-direction: row; */
+    /* align-items: stretch; */
+    justify-content: center;
+    align-items: center;
+    /* height: calc(100% * 11.5/14); */
     width: 100%;
     font-size: 1.25rem;
+    height: 100%;
+    /* flex-grow: 0; */
 }
 
 #footer {
-    flex: 1.75;
-    font-size: 1.15rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex: 1.75;
+    font-size: 1.15rem;
     min-height: 5rem;
+    font-family: Arial, sans-serif;
+    color: #6b7280;
 }
 
 #footer .fa-github {
@@ -207,13 +231,14 @@ body {
     font-size: 2rem;
 }
 
+/* may erase */
 .font-arial {
     font-family: Arial, sans-serif;
 }
 
-
 /* ANIMATIONS AND TRANSITIONS */
 
+/* make expansion transition */
 .expand {
     width: 75%;
     border-top-left-radius: 47px;
@@ -255,6 +280,8 @@ body {
     font-size: smaller;
     color: #4B5563;
     transition: background-color 0.3s, transform 0.3s;
+    margin-top: 1rem; /* Aumenta para más espacio en la parte superior */
+    margin-bottom: 1rem;
 }
 
 .addButton:hover {
@@ -264,21 +291,18 @@ body {
 }
 
 .box {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     border: 1.5px solid #a8a29e;
     border-radius: 18px;
     padding-top: 0;
     padding: 20px;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: 90%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto; 
-    max-height: 100%;
-}
-
-#taskListBox {
-    margin-top: 0;
+    /* overflow-y: auto; 
+    max-height: 100%; */
 }
 
 
@@ -364,11 +388,13 @@ input[type="date"].has-date::before {
 }
 
 .listContainer {
-    overflow-y: auto;
-    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* overflow-y: auto; */
     width: 100%;
-    max-height: none;
     height: auto; 
+    margin-bottom: 1rem;
 }
 
 
@@ -386,15 +412,10 @@ input[type="date"].has-date::before {
 
     }
 
-    #mainBox {
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: auto; 
-    }
 
     #contentBox {
         border-radius: 40px;
-
+        width: 90%;
     }
 
     #contentBoxHeder {

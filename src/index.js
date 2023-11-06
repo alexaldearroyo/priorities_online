@@ -6,6 +6,43 @@ import loadTasksModule from "./tasks.js";
 import loadProjectsModule from "./projects.js";
 import loadPrioritiesModule from "./priorities.js";
 
+$(document).ready(function() {
+  function activateMenuItem(item) {
+      $("#sideBarMenu > div").removeClass("active");
+      $(item).addClass("active");
+  }
+
+  $("#sideBarMenu > div").on("click", function () {
+      activateMenuItem(this);
+
+      if ($(window).width() < 1200) {
+          if (this.id !== "prioritiesMenu") {
+              $("#sideBar").hide();
+              $("#contentBox").removeClass("expand");
+          }
+      }
+
+      switch (this.id) {
+          case "tasksMenu":
+              loadTasksModule();
+              break;
+          case "prioritiesMenu":
+              loadPrioritiesModule();
+              break;
+          case "projectsMenu":
+              loadProjectsModule();
+              break;
+          case "datesMenu":
+              loadDatesModule();
+              break;
+      }
+  });
+
+  // Activa el elemento 'tasks' cuando la página se cargue
+  activateMenuItem("#tasksMenu");
+});
+
+
 $(function () {
   loadTasksModule();
 
@@ -20,33 +57,6 @@ $(function () {
 
     $("#sideBar").toggle();
     $("#contentBox").toggleClass("expand");
-  });
-
-  $("#fMenu > div").on("click", function () {
-    $("#sideBarMenu > div").removeClass("active");
-    $(this).addClass("active");
-
-    if ($(window).width() < 1200) {
-      if (this.id !== "prioritiesMenu") {
-        $("#sideBar").hide();
-        $("#contentBox").removeClass("expand");
-      }
-    }
-
-    switch (this.id) {
-      case "tasksMenu":
-        loadTasksModule();
-        break;
-      case "prioritiesMenu":
-        loadPrioritiesModule();
-        break;
-      case "projectsMenu":
-        loadProjectsModule();
-        break;
-      case "datesMenu":
-        loadDatesModule();
-        break;
-    }
   });
 
   $("#prioritiesMenu").on("click", function (e) {
