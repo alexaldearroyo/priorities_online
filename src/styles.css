@@ -27,6 +27,7 @@ body {
     color: #71717a;
     font-size: 2.25rem;
     font-family: monospace;
+    min-height: 6rem; 
 }
 
 #mainContainer {
@@ -35,12 +36,15 @@ body {
 }
 
 #mainBox {
-    height: calc(100% * 13/14);
+    min-height: calc(100% * 13/14);
+    height: auto; 
     width: 70%;
     border-radius: 40px;
     display: flex;
     align-items: flex-start;
     position: relative;
+    margin-bottom: 30px;
+ 
 }
 
 #sideBar {
@@ -51,7 +55,7 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow: auto;
     max-height: 100%;
 }
 
@@ -109,12 +113,13 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 2rem;
+    /* padding-top: 2rem; */
     padding-left: 3.75rem;
     color: #4B5563;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
     font-size: 1.5rem;
+
 }
 
 #sideBarMenu>div {
@@ -159,7 +164,8 @@ body {
     width: calc(100% * 15/21);
     border-top-right-radius: 47px;
     border-bottom-right-radius: 47px;
-    height: 100%;
+    min-height: calc(100% * 11.5/14);
+    height: auto;
     display: flex;
     flex-direction: column;
     overflow-x: auto;
@@ -173,6 +179,7 @@ body {
     font-size: 1.5rem;
     font-weight: 100;
     padding-top: 10px;
+    min-height: 4rem;
 }
 
 #contentBoxMain {
@@ -187,6 +194,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 5rem;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 #footer .fa-github {
@@ -258,6 +268,8 @@ body {
     width: 90%;
     display: flex;
     flex-direction: column;
+    overflow-y: auto; 
+    max-height: 100%;
 }
 
 
@@ -340,6 +352,15 @@ input[type="date"].has-date::before {
     color: white;
     transform: scale(1.07);
 }
+
+.listContainer {
+    overflow-y: auto;
+    max-height: 100%;
+    width: 100%;
+    max-height: none;
+    height: auto; 
+}
+
 
 /* RESPONSIVENESS */
 

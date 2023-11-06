@@ -102,13 +102,13 @@ function loadTasksModule() {
 
     const addTaskBoxRight = $("<div>", {
       id: "addTaskBoxRight",
-      class: "flex flex-1 flex-col items-center gap-y-2",
+      class: "flex flex-1 flex-col justify-center items-center gap-y-2",
       style: "flex: 3",
     });
 
     const addTaskBoxRightTop = $("<div>", {
       id: "addTaskBoxRightTop",
-      class: "h-1/2 w-full flex justify-center",
+      class: "h-1/2 w-full flex justify-center items-center",
     });
 
     const createTaskButton = $("<button>", {
@@ -134,7 +134,7 @@ function loadTasksModule() {
         $("#contentBoxMain").prepend(taskButtonContainer);
         $("#taskButtonContainer").append(addTaskButton);
 
-        // displayTasks(); 
+        displayTasks(); 
       }
     });
 
@@ -151,7 +151,7 @@ function loadTasksModule() {
 
     const addTaskBoxLRightBottom = $("<div>", {
       id: "addTaskBoxLeftBottom",
-      class: "h-1/2 w-full flex justify-center",
+      class: "h-1/2 w-full flex justify-center items-center",
     });
     const third = $("<div>", {
       id: "addTaskBoxLeftBottom",
@@ -194,7 +194,7 @@ function loadTasksModule() {
   });
   taskButtonContainer.append(addTaskButton);
 
-//   displayTasks();
+  displayTasks();
 
 }
 
