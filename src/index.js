@@ -22,7 +22,7 @@ $(function () {
     $("#contentBox").toggleClass("expand");
   });
 
-  $("#sideBarMenu > div").on("click", function () {
+  $("#fMenu > div").on("click", function () {
     $("#sideBarMenu > div").removeClass("active");
     $(this).addClass("active");
 

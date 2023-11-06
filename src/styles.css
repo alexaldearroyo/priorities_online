@@ -86,8 +86,8 @@ body {
     flex-shrink: 0;
     flex-basis: auto;
     
-    /* overflow-y: auto;
-    margin-bottom: 0.75rem; */
+    /* overflow-y: auto; */
+    margin-bottom: 0.75rem;
 }
 
 #burgerMenu {
@@ -165,7 +165,8 @@ body {
 }
 
 #contentBox {
-    width: calc(100% * 15/21);
+    width: 90%;
+    height: 100%;
     border-top-right-radius: 47px;
     border-bottom-right-radius: 47px;
     min-height: calc(100% * 11.5/14);
@@ -177,23 +178,22 @@ body {
 
 #contentBoxHeader {
     height: calc(100% * 1.5/14);
-    min-height: 4rem;
+    max-height: 1rem;
     width: 100%;
     font-family: 'Arial', sans-serif;
     font-size: 1.5rem;
     font-weight: 100;
     padding-top: 1rem;
-    /* margin-bottom: 0.75rem; */
 }
 
 #contentBoxMain {
     height: calc(100% * 11.5/14);
-    min-height: calc(100% * 11.5/14);
+    /* min-height: calc(100% * 11.5/14); */
     width: 100%;
     font-size: 1.25rem;
-    flex-grow: 0;
+    /* flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: auto; 
+    flex-basis: auto;  */
 }
 
 #footer {
@@ -380,17 +380,24 @@ input[type="date"].has-date::before {
         height: 100%;
         border-radius: 40px;
         position: absolute;
-        overflow-y: hidden;
+        overflow-y: auto;
         box-sizing: border-box;
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: auto; 
+ 
     }
 
     #mainBox {
         flex-grow: 0;
         flex-shrink: 0;
         flex-basis: auto; 
+    }
+
+    #contentBox {
+        border-radius: 40px;
+
+    }
+
+    #contentBoxHeder {
+        margin-bottom: 2rem;
     }
 
     #sideBarMenu {
