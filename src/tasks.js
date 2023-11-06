@@ -211,10 +211,11 @@ function displayTasks() {
       class: "box",
     });
 
-    tasks.forEach((task) => {
+    tasks.forEach((task, index) => {
+
       const taskListElement = $("<div>", {
-        class: "taskListElement",
-        text: task.name, // TODO: Design taskListElement
+        class: "taskListElement" + (index < tasks.length - 1 ? " task-separator" : ""),
+        text: task.name,
       });
 
       taskListBox.append(taskListElement);

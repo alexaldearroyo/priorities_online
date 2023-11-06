@@ -29,8 +29,8 @@ body {
     color: #71717a;
     font-size: 2.25rem;
     font-family: monospace;
-    min-height: 7.5rem; 
-    max-height: 7.5rem; 
+    min-height: 7.5rem;
+    max-height: 7.5rem;
 }
 
 #mainContainer {
@@ -52,7 +52,7 @@ body {
     align-items: flex-start;
     position: relative;
     margin-bottom: 30px;
-    flex-grow: 1;  
+    flex-grow: 1;
 }
 
 #burgerMenu {
@@ -91,7 +91,7 @@ body {
     height: 100%;
     box-sizing: border-box;
     max-height: 100%;
-    
+
 }
 
 /* may erase */
@@ -99,12 +99,14 @@ body {
     width: 15px;
     background-color: transparent;
 }
+
 #sideBar::-webkit-scrollbar-thumb {
     background-color: #A8A29E;
     border-radius: 6px;
     background-clip: content-box;
     border: 4px solid transparent;
 }
+
 #sideBar::-webkit-scrollbar-track {
     border-radius: 15px;
     margin: 40px;
@@ -145,10 +147,10 @@ body {
 }
 
 #sideBarMenu>div:hover i {
-    color:#6b7280;
+    color: #6b7280;
 }
 
-#sideBarMenu > div.active i {
+#sideBarMenu>div.active i {
     color: #6b7280 !important;
 }
 
@@ -213,6 +215,7 @@ body {
     font-size: 1.25rem;
     height: 100%;
     /* flex-grow: 0; */
+    padding-bottom: 5rem;
 }
 
 #footer {
@@ -280,7 +283,8 @@ body {
     font-size: smaller;
     color: #4B5563;
     transition: background-color 0.3s, transform 0.3s;
-    margin-top: 1rem; /* Aumenta para más espacio en la parte superior */
+    margin-top: 1rem;
+    /* Aumenta para más espacio en la parte superior */
     margin-bottom: 1rem;
 }
 
@@ -301,6 +305,7 @@ body {
     margin-top: 20px;
     margin-bottom: 10px;
     width: 90%;
+    
     /* overflow-y: auto; 
     max-height: 100%; */
 }
@@ -318,7 +323,8 @@ body {
     background-position: right .7em center;
     padding-right: 2.5em;
     height: 2.5rem;
-    max-height: 2.5rem;;
+    max-height: 2.5rem;
+    ;
     font-size: 1rem;
 }
 
@@ -393,8 +399,26 @@ input[type="date"].has-date::before {
     justify-content: center;
     /* overflow-y: auto; */
     width: 100%;
-    height: auto; 
+    height: auto;
     margin-bottom: 1rem;
+    color: #374151;
+    
+}
+
+.task-separator {
+    position: relative;
+    /* border-bottom: 1px solid #A8A29E; */
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.task-separator::after {
+    content: '';
+    position: absolute;
+    left: -20px;
+    right: -20px;
+    bottom: 0;
+    border-bottom: 1px solid #A8A29E;
 }
 
 
@@ -409,9 +433,12 @@ input[type="date"].has-date::before {
         position: absolute;
         box-sizing: border-box;
         overflow-y: hidden;
-
+        z-index: 100;
     }
 
+    #burgerMenu {
+        z-index: 101;
+    }
 
     #contentBox {
         border-radius: 40px;
@@ -447,7 +474,7 @@ input[type="date"].has-date::before {
     }
 
     #burgerMenu {
-        z-index: 20;
+        z-index: 101;
         top: 1.25rem;
         left: 1.25rem;
         font-size: 1.5rem;
@@ -462,7 +489,7 @@ input[type="date"].has-date::before {
     .selector {
         margin-bottom: 10px;
         flex-basis: 100%;
-        margin-right: 5px; 
+        margin-right: 5px;
     }
 
 
