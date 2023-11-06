@@ -8,7 +8,7 @@ function loadTasksModule() {
 
   const taskButtonContainer = $("<div>", {
     id: "taskButtonContainer",
-    class: "flex-center h-1/6 w-full mt-4",
+    class: "flex-center h-1/6 w-full",
   });
   const tasksListContainer = $("<div>", {
     id: "tasksListContainer",

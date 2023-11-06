@@ -135,6 +135,10 @@ body {
     color:#6b7280;
 }
 
+#sideBarMenu > div.active i {
+    color: #6b7280 !important;
+}
+
 #prioritiesSubMenu>div {
     padding-top: 0.5rem;
     margin-left: 2.5rem;
@@ -161,11 +165,11 @@ body {
 
 #contentBox {
     width: 90%;
-    /* height: 100%; */
+    height: 100%;
     border-top-right-radius: 47px;
     border-bottom-right-radius: 47px;
     min-height: calc(100% * 11.5/14);
-    display: flex;
+    /* display: flex; */
     justify-content: flex-start;
     flex-direction: column;
     overflow-x: auto;
@@ -265,7 +269,7 @@ body {
     padding-top: 0;
     padding: 20px;
     margin-top: 20px;
-    /* margin-bottom: 20px; */
+    margin-bottom: 20px;
     width: 90%;
     display: flex;
     flex-direction: column;
