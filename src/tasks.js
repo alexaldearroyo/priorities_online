@@ -8,7 +8,7 @@ function loadTasksModule() {
 
   const taskButtonContainer = $("<div>", {
     id: "taskButtonContainer",
-    class: "flex-center h-1/6 w-full mt-4",
+    class: "flex-center h-1/6 w-full mt-4 mb-4",
   });
   const tasksListContainer = $("<div>", {
     id: "tasksListContainer",
@@ -102,13 +102,13 @@ function loadTasksModule() {
 
     const addTaskBoxRight = $("<div>", {
       id: "addTaskBoxRight",
-      class: "flex flex-1 flex-col justify-center items-center gap-y-2",
+      class: "flex flex-1 flex-col items-center",
       style: "flex: 3",
     });
 
     const addTaskBoxRightTop = $("<div>", {
       id: "addTaskBoxRightTop",
-      class: "h-1/2 w-full flex justify-center items-center",
+      class: "h-1/2 w-full flex justify-center items-center mb-2",
     });
 
     const createTaskButton = $("<button>", {
@@ -150,15 +150,13 @@ function loadTasksModule() {
     addTaskBoxRightTop.append(createTaskButton);
 
     const addTaskBoxLRightBottom = $("<div>", {
-      id: "addTaskBoxLeftBottom",
+      id: "addTaskBoxLRightBottom",
       class: "h-1/2 w-full flex justify-center items-center",
     });
     const third = $("<div>", {
-      id: "addTaskBoxLeftBottom",
       class: "h-1/2 w-full flex justify-center",
     });
     const fourth = $("<div>", {
-      id: "addTaskBoxLeftBottom",
       class: "h-1/2 w-full flex justify-center",
     });
 
@@ -189,7 +187,7 @@ function loadTasksModule() {
 
   const addTaskButton = $("<button>", {
     id: "addTaskButton",
-    class: "addButton",
+    class: "addButton mb-1",
     text: "Add Task",
   });
   taskButtonContainer.append(addTaskButton);
