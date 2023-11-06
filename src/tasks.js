@@ -8,10 +8,14 @@ function loadTasksModule() {
 
   const taskButtonContainer = $("<div>", {
     id: "taskButtonContainer",
-    class: "flex-center h-1/6 w-full",
+    class: "flex-center h-1/6 w-full mt-4",
   });
+  const tasksListContainer = $("<div>", {
+    id: "tasksListContainer",
+    class: "listContainer flex-center h-5/6",
+  }).html("Task List Container");
 
-  $("#contentBoxMain").append(taskButtonContainer);
+  $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
 
   $("#contentBoxMain").on("click", "#addTaskButton", function () {
     const addTaskBox = $("<div>", {
@@ -198,19 +202,12 @@ function setTaskId() {
 
 function displayTasks() {
   const tasks = getTasks();
-
-  $("#tasksListContainer").remove();
+  const taskListContainer = $("#tasksListContainer",);
+  taskListContainer.empty();
 
   if (tasks.length > 0) {
-
-    const tasksListContainer = $("<div>", {
-      id: "tasksListContainer",
-      class: "listContainer flex-center h-5/6 mb-8",
-    });
-
     tasks.sort((a, b) => b.id - a.id);
     const taskListBox = $("<div>", {
-      id: "taskListBox",
       class: "box",
     });
 
@@ -223,10 +220,7 @@ function displayTasks() {
       taskListBox.append(taskListElement);
     });
 
-    tasksListContainer.append(taskListBox);
-    
-    $("#contentBoxMain").append(tasksListContainer);
-
+    taskListContainer.append(taskListBox);
   }
 }
 
