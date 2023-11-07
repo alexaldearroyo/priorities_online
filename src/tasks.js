@@ -1,4 +1,4 @@
-import { saveTask, getTasks, deleteTask } from "./localStorage.js";
+import { saveTask, getTasks, deleteTask, getProjects } from "./localStorage.js";
 
 function loadTasksModule() {
   $("#contentBoxHeader").empty();
@@ -36,8 +36,7 @@ function loadTasksModule() {
 
     const taskInputBox = $("<input>", {
       type: "text",
-      class:
-        "inputBox",
+      class: "inputBox",
       placeholder: "Enter task...",
     });
 
@@ -89,7 +88,17 @@ function loadTasksModule() {
     const projectSelector = $("<select>", {
       id: "projectSelector",
       class: "selector",
-    }).append($("<option>", { value: "", text: "Project", disabled: true }));
+    }).append($("<option>", { value: "", text: "Project", selected: true }));
+
+    const projects = getProjects();
+    projects.forEach((project) => {
+      projectSelector.append(
+        $("<option>", {
+          value: project.name,
+          text: project.name,
+        })
+      );
+    });
 
     addTaskBoxLeftBottom.append(
       prioritySelector,
@@ -116,7 +125,6 @@ function loadTasksModule() {
       text: "Add Task",
     }).attr("tabindex", 0);
 
-
     createTaskButton.prop("disabled", true);
 
     createTaskButton.on("click", function () {
@@ -124,7 +132,7 @@ function loadTasksModule() {
       const name = taskInputBox.val();
       const priority = prioritySelector.val();
       const date = dateSelector.val();
-      const project = projectSelector.val(); // TO-DO: Add project logic
+      const project = projectSelector.val();
 
       if (name.trim() !== "") {
         const task = new Task(id, name, priority, date, project);
@@ -134,7 +142,7 @@ function loadTasksModule() {
         $("#contentBoxMain").prepend(taskButtonContainer);
         $("#taskButtonContainer").append(addTaskButton);
 
-        displayTasks(); 
+        displayTasks();
       }
       updatePriorityMenus();
     });
@@ -205,7 +213,7 @@ function setTaskId() {
 
 function displayTasks() {
   const tasks = getTasks();
-  const taskListContainer = $("#tasksListContainer",);
+  const taskListContainer = $("#tasksListContainer");
   taskListContainer.empty();
 
   if (tasks.length > 0) {
@@ -215,9 +223,11 @@ function displayTasks() {
     });
 
     tasks.forEach((task, index) => {
-
       const taskListElement = $("<div>", {
-        class: "taskListElement" + (index < tasks.length - 1 ? " task-separator" : "") + " flex flex-col",
+        class:
+          "taskListElement" +
+          (index < tasks.length - 1 ? " task-separator" : "") +
+          " flex flex-col",
       });
 
       const taskListElementTop = $("<div>", {
@@ -226,60 +236,59 @@ function displayTasks() {
 
       const taskName = $("<span>", {
         class: "taskName",
-        text: task.name
+        text: task.name,
       });
 
       const completeButton = $("<button>", {
         class: "completeButton",
         text: "Complete",
-        "data-id": task.id
+        "data-id": task.id,
       }).attr("tabindex", 0);
 
-      completeButton.on("click", function() {
-        const taskId = $(this).data('id').toString();
+      completeButton.on("click", function () {
+        const taskId = $(this).data("id").toString();
         const wasDeleted = deleteTask(taskId);
 
         if (wasDeleted) {
-          $(this).closest('.taskListElement').remove();
+          $(this).closest(".taskListElement").remove();
 
           if (getTasks().length === 1) {
-            $('.taskListElement').removeClass('task-separator');
+            $(".taskListElement").removeClass("task-separator");
           }
 
           if (getTasks().length === 0) {
             $("#tasksListContainer").empty();
           }
         } else {
-          console.error('Task could not be deleted.');
+          console.error("Task could not be deleted.");
         }
         updatePriorityMenus();
       });
-      
 
       taskListElementTop.append(taskName, completeButton);
 
-      
       const taskListElementBottom = $("<div>", {
-        class: "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1",
+        class:
+          "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1",
       });
 
       if (task.priority) {
-        let priorityClass = '';
+        let priorityClass = "";
         switch (task.priority) {
-          case 'High':
-            priorityClass = 'high-priority';
+          case "High":
+            priorityClass = "high-priority";
             break;
-          case 'Medium':
-            priorityClass = 'medium-priority';
+          case "Medium":
+            priorityClass = "medium-priority";
             break;
-          case 'Low':
-            priorityClass = 'low-priority';
+          case "Low":
+            priorityClass = "low-priority";
             break;
         }
 
         const priorityLabel = $("<span>", {
           class: `label priorityLabel ${priorityClass}`,
-          text: task.priority  
+          text: task.priority,
         });
         taskListElementBottom.append(priorityLabel);
       }
@@ -287,40 +296,37 @@ function displayTasks() {
       if (task.date) {
         const dateLabel = $("<span>", {
           class: "label dateLabel",
-          text: task.date
+          text: task.date,
         });
         taskListElementBottom.append(dateLabel);
       }
-    
-    
+
       if (task.project) {
         const projectLabel = $("<span>", {
           class: "label projectLabel",
-          text: task.project
+          text: task.project,
         });
         taskListElementBottom.append(projectLabel);
       }
 
-
       taskListElement.append(taskListElementTop, taskListElementBottom);
 
       taskListBox.append(taskListElement);
-
     });
 
     taskListContainer.append(taskListBox);
   }
-  updatePriorityMenus(); 
+  updatePriorityMenus();
 }
 
 export default loadTasksModule;
 
 export function updatePriorityMenus() {
   const tasks = getTasks();
-  const priorityLevels = ['High', 'Medium', 'Low'];
+  const priorityLevels = ["High", "Medium", "Low"];
 
   priorityLevels.forEach((priority) => {
-    const hasPriorityTask = tasks.some(task => task.priority === priority);
+    const hasPriorityTask = tasks.some((task) => task.priority === priority);
     const menuSelector = `#${priority.toLowerCase()}PriorityMenu`;
     const bulletClass = `${priority.toLowerCase()}-priority-bullet`;
 
@@ -331,7 +337,6 @@ export function updatePriorityMenus() {
     }
   });
 }
-
 
 class Task {
   constructor(id, name, priority, date, project) {
