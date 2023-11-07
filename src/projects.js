@@ -1,3 +1,4 @@
+import { css } from "jquery";
 import { saveProject, getProjects, deleteProject } from "./localStorage.js";
 
 function loadProjectsModule() {
@@ -103,16 +104,33 @@ function displayProjects() {
     projects.forEach((project, index) => {
         
       const projectLisElement = $("<div>", {
-        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex flex-col",
+        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex justify-center items-center w-full gap-x-6",
       });
 
       const projectName = $("<span>", {
         class: "projectName",
-        text: project.name
+        text: project.name,
+        css: { flex: "3" },
       });
 
+      const viewButton = $("<button>", {
+        class: "viewButton", // provisional
+        text: "View",
+        css: { flex: "1" },
+      });
+
+      const deleteButton = $("<button>", {
+        class: "deleteButton",
+        text: "Delete",
+        css: { flex: "1" },
+      });
+
+      deleteButton.on("click", function () {
+        deleteProject(project.id);
+          displayProjects();
+      });
     
-      projectLisElement.append(projectName);
+      projectLisElement.append(projectName, viewButton, deleteButton);
       projectListBox.append(projectLisElement);
     });
     projectsListContainer.append(projectListBox);

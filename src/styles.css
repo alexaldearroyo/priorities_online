@@ -217,16 +217,11 @@ body {
 
 #contentBoxMain {
     display: flex;
-    /* flex-wrap: wrap; */
-    /* flex-direction: row; */
-    /* align-items: stretch; */
     justify-content: center;
     align-items: center;
-    /* height: calc(100% * 11.5/14); */
     width: 100%;
     font-size: 1.25rem;
     height: 100%;
-    /* flex-grow: 0; */
     padding-bottom: 5rem;
 }
 
@@ -328,7 +323,7 @@ body {
 }
 
 .selector {
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: #BFDBFE;
     appearance: none;
     padding: 5px 10px;
@@ -400,7 +395,7 @@ input[type="date"].has-date::before {
 }
 
 .cancelButton {
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: #BE123C;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     min-height: 2.5rem;
@@ -442,7 +437,7 @@ input[type="date"].has-date::before {
 
 .task-separator, .project-separator {
     position: relative;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     margin-bottom: 15px;
 }
 
@@ -465,7 +460,7 @@ input[type="date"].has-date::before {
 }
 
 .completeButton {
-    border-radius: 0 10px 0 10px;
+    border-radius: 0 12px 0 12px;
     background-color: #BE123C;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     height: 2.5rem;
@@ -475,16 +470,44 @@ input[type="date"].has-date::before {
     height: 2.25rem;
 }
 
+.viewButton {
+    border-radius: 12px;
+    background-color: #BFDBFE;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 2.25rem;
+    color: #374151;
+    max-width: 6rem;
+    max-height: 2.5rem;
+    font-size: 1rem;
+}
 
-.completeButton:hover {
+.deleteButton {
+    border-radius: 12px;
+    background-color: #BE123C;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 2.25rem;
+    color: #FECDD3;
+    max-width: 6rem;
+    max-height: 2.5rem;
+    font-size: 1rem;
+}
+
+
+.completeButton:hover, .deleteButton:hover {
     background-color: #9f1239;
     color: white;
     transform: scale(1.07);
 }
 
+.viewButton:hover {
+    background-color: #93C5FD;
+    color: black;
+    transform: scale(1.07);
+}
+
 .label {
     background-color: #BFDBFE;
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 5px 20px;
     color: #4B5563;
     font-size: 1rem;

@@ -260,7 +260,7 @@ function displayTasks() {
 
       
       const taskListElementBottom = $("<div>", {
-        class: "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center py-2 w-full",
+        class: "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1",
       });
 
       if (task.priority) {
