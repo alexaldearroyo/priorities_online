@@ -37,9 +37,8 @@ function loadTasksModule() {
     const taskInputBox = $("<input>", {
       type: "text",
       class:
-        "inputBox rounded-lg border-2 border-gray-700 bg-white w-full p-2 py-1  mb-2", // TODO: Later define class in styles.css (inputBox)
+        "inputBox",
       placeholder: "Enter task...",
-      css: { "border-radius": "10px" },
     });
 
     addTaskBoxLeftTop.append(taskInputBox);
@@ -113,7 +112,7 @@ function loadTasksModule() {
 
     const createTaskButton = $("<button>", {
       id: "createTaskButton",
-      class: "createButton w-full mb-2",
+      class: "createButton",
       text: "Add Task",
     }).attr("tabindex", 0);
 
@@ -166,7 +165,7 @@ function loadTasksModule() {
 
     const cancelTaskButton = $("<button>", {
       id: "cancelTaskButton",
-      class: "cancelButton w-full",
+      class: "cancelButton",
       text: "Cancel",
     }).attr("tabindex", 0);
 
@@ -195,7 +194,6 @@ function loadTasksModule() {
     text: "Add Task",
     tabindex: 0,
   });
-
   taskButtonContainer.append(addTaskButton);
 
   displayTasks();

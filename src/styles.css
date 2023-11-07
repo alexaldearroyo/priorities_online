@@ -324,10 +324,7 @@ body {
 
 #tasksListContainer .box {
     padding-top: 15px;
-    /* o el valor que prefieras */
     padding-right: 15px;
-    /* o el valor que prefieras */
-
 }
 
 .selector {
@@ -389,9 +386,11 @@ input[type="date"].has-date::before {
     border-radius: 10px;
     background-color: #D4D4D8;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    height: 2.5rem;
+    min-height: 2.5rem;
     font-size: 1rem;
     color: #374151;
+    width: 100%;
+    margin-bottom: 0.5rem;
 }
 
 .createButton:hover {
@@ -404,9 +403,12 @@ input[type="date"].has-date::before {
     border-radius: 10px;
     background-color: #BE123C;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    height: 2.5rem;
+    min-height: 2.5rem;
     color: #FECDD3;
     font-size: 1rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+
 }
 
 .cancelButton:hover {
@@ -415,11 +417,22 @@ input[type="date"].has-date::before {
     transform: scale(1.07);
 }
 
+.inputBox {
+    border-radius: 0.5rem;
+    border-width: 2px;
+    border-color: #4a5568;
+    background-color: white;
+    width: 100%;
+    padding: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
 .listContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* overflow-y: auto; */
     width: 100%;
     height: auto;
     margin-bottom: 1rem;
@@ -429,7 +442,6 @@ input[type="date"].has-date::before {
 
 .task-separator {
     position: relative;
-    /* border-bottom: 1px solid #A8A29E; */
     padding-bottom: 10px;
     margin-bottom: 15px;
 }
