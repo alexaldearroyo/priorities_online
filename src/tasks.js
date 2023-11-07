@@ -137,7 +137,7 @@ function loadTasksModule() {
 
         displayTasks(); 
       }
-
+      updatePriorityMenus();
     });
 
     taskInputBox.on("input", function () {
@@ -199,7 +199,6 @@ function loadTasksModule() {
   taskButtonContainer.append(addTaskButton);
 
   displayTasks();
-
 }
 
 function setTaskId() {
@@ -241,14 +240,21 @@ function displayTasks() {
       completeButton.on("click", function() {
         const taskId = $(this).data('id').toString();
         const wasDeleted = deleteTask(taskId);
+
         if (wasDeleted) {
           $(this).closest('.taskListElement').remove();
+
+          if (getTasks().length === 1) {
+            $('.taskListElement').removeClass('task-separator');
+          }
+
           if (getTasks().length === 0) {
             $("#tasksListContainer").empty();
           }
         } else {
           console.error('Task could not be deleted.');
         }
+        updatePriorityMenus();
       });
       
 
@@ -306,9 +312,28 @@ function displayTasks() {
 
     taskListContainer.append(taskListBox);
   }
+  updatePriorityMenus(); 
 }
 
 export default loadTasksModule;
+
+export function updatePriorityMenus() {
+  const tasks = getTasks();
+  const priorityLevels = ['High', 'Medium', 'Low'];
+
+  priorityLevels.forEach((priority) => {
+    const hasPriorityTask = tasks.some(task => task.priority === priority);
+    const menuSelector = `#${priority.toLowerCase()}PriorityMenu`;
+    const bulletClass = `${priority.toLowerCase()}-priority-bullet`;
+
+    if (hasPriorityTask) {
+      $(menuSelector).addClass(bulletClass);
+    } else {
+      $(menuSelector).removeClass(bulletClass);
+    }
+  });
+}
+
 
 class Task {
   constructor(id, name, priority, date, project) {

@@ -175,8 +175,20 @@ body {
     height: 0.75rem;
     width: 0.75rem;
     background-color: #78716C;
+    border: 1px solid #78716C;
     border-radius: 50%;
 }
+
+#prioritiesSubMenu .high-priority-bullet::before {
+    background-color: #EF4444 !important;
+}
+#prioritiesSubMenu .medium-priority-bullet::before {
+    background-color: #FBBF24 !important;
+}
+#prioritiesSubMenu .low-priority-bullet::before {
+    background-color: #0EA5E9 !important;
+}
+
 
 #contentBox {
     display: flex;
@@ -359,27 +371,19 @@ input[type="date"].has-date::before {
     color: #fee2e2;
 }
 
-.high-priority-bullet {
-    background-color: #EF4444;
-}
 
 .medium-priority {
     background-color: #FBBF24;
     color: #374151;
 }
 
-.medium-priority-bullet {
-    background-color: #EF4444;
-}
+
 
 .low-priority {
     background-color: #0EA5E9;
     color: #e0f2fe;
 }
 
-.low-priority-bullet {
-    background-color: #0EA5E9;
-}
 
 .createButton {
     border-radius: 10px;
@@ -488,6 +492,19 @@ input[type="date"].has-date::before {
     color: #e0f2fe;
 }
 
+/* Define background colors for different priority levels */
+.box-high-priority {
+    background-color: red; /* or any color you want for high priority */
+  }
+  
+  .box-medium-priority {
+    background-color: yellow; /* or any color you want for medium priority */
+  }
+  
+  .box-low-priority {
+    background-color: green; /* or any color you want for low priority */
+  }
+  
 
 /* RESPONSIVENESS */
 

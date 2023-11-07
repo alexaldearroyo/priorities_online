@@ -4,9 +4,9 @@ import $ from "jquery";
 import loadDatesModule from "./dates.js";
 import loadTasksModule from "./tasks.js";
 import loadProjectsModule from "./projects.js";
-import { updatePriorityBullets } from "./priorities.js";
+import loadPriorities from './priorities.js';
 
-$(document).ready(function() {
+$(function() {
   function activateMenuItem(item) {
       $("#sideBarMenu > div").removeClass("active");
       $(item).addClass("active");
@@ -38,17 +38,8 @@ $(document).ready(function() {
       }
   });
 
-  // Activa el elemento 'tasks' cuando la página se cargue
-  activateMenuItem("#tasksMenu");
-});
-
-
-$(function () {
-  loadTasksModule();
-
   $("#burgerMenu").on("click", function () {
     var icon = $(this).find("i");
-
     if (icon.hasClass("rotated")) {
       icon.removeClass("rotated");
     } else {
@@ -67,7 +58,25 @@ $(function () {
 
   $("#prioritiesSubMenu > div").on("click", function (e) {
     e.stopPropagation();
+    var priority = $(this).attr('id').replace('PriorityMenu', '');
+    loadPriorities(priority);
+    
+    if ($(window).width() < 1200) {
+      $("#sideBar").hide();
+      $("#contentBox").removeClass("expand");
+    } else {
+      $("#prioritiesSubMenu").show();
+      $("#prioritiesMenu .fa-chevron-right").addClass("rotated-down");
+    }
   });
+
+  $(document).on("click", function (e) {
+    if (!$(e.target).closest('#prioritiesMenu, #prioritiesSubMenu').length) {
+      $("#prioritiesSubMenu").hide();
+      $("#prioritiesMenu .fa-chevron-right").removeClass("rotated-down");
+    }
+  });
+  
 
   $(document).on("click", function () {
     $("#prioritiesSubMenu").hide();
@@ -78,6 +87,16 @@ $(function () {
     loadTasksModule();
   });
 
+  $('#highPriorityMenu').on('click', function() {
+    loadPriorities('High');
+  });
+  $('#mediumPriorityMenu').on('click', function() {
+    loadPriorities('Medium');
+  });
+  $('#lowPriorityMenu').on('click', function() {
+    loadPriorities('Low');
+  });
+
   $("#projectsMenu").on("click", function () {
     loadProjectsModule();
   });
@@ -85,4 +104,7 @@ $(function () {
   $("#datesMenu").on("click", function () {
     loadDatesModule();
   });
+
+  activateMenuItem("#tasksMenu");
+  loadTasksModule();
 });
