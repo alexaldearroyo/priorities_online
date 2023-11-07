@@ -281,6 +281,13 @@ body {
 
 /* SPECIAL CLASSES */
 
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .addButton {
     background-color: #D4D4D8;
     border-radius: 14px;

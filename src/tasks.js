@@ -8,7 +8,7 @@ function loadTasksModule() {
 
   const taskButtonContainer = $("<div>", {
     id: "taskButtonContainer",
-    class: "flex-center h-1/6 w-full",
+    class: "buttonContainer h-1/6",
   });
   const tasksListContainer = $("<div>", {
     id: "tasksListContainer",
@@ -231,7 +231,7 @@ function displayTasks() {
       });
 
       const taskListElementTop = $("<div>", {
-        class: "taskListElementTop flex justify-between items-center w-full",
+        class: "taskListElementTop flex justify-between items-center w-full mb-1",
       });
 
       const taskName = $("<span>", {
@@ -250,13 +250,17 @@ function displayTasks() {
         const wasDeleted = deleteTask(taskId);
 
         if (wasDeleted) {
-          $(this).closest(".taskListElement").remove();
-
-          if (getTasks().length === 1) {
-            $(".taskListElement").removeClass("task-separator");
+          const taskElement = $(this).closest(".taskListElement");
+          taskElement.remove();
+      
+          // Elimina el separador del nuevo último elemento, si hay más de uno
+          const remainingTasks = $(".taskListElement");
+          if (remainingTasks.length > 0) {
+            remainingTasks.last().removeClass("task-separator");
           }
-
-          if (getTasks().length === 0) {
+      
+          // Si ya no hay tareas, limpia el contenedor
+          if (remainingTasks.length === 0) {
             $("#tasksListContainer").empty();
           }
         } else {
@@ -269,7 +273,7 @@ function displayTasks() {
 
       const taskListElementBottom = $("<div>", {
         class:
-          "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1",
+          "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1 gap-y-4",
       });
 
       if (task.priority) {

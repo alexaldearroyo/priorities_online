@@ -16,8 +16,6 @@ function loadProjectsModule() {
     class: "listContainer h-5/6",
   });
 
-  $("#contentBoxMain").append(projectButtonContainer, projectsListContainer);
-
   const addProjectButton = $("<button>", {
     id: "addProjectButton",
     class: "addButton",
@@ -26,6 +24,8 @@ function loadProjectsModule() {
   });
 
   projectButtonContainer.append(addProjectButton);
+  $("#contentBoxMain").append(projectButtonContainer, projectsListContainer);
+
 
   $("#contentBoxMain").on("click", "#addProjectButton", function () {
     const addProjectBox = $("<div>", {
@@ -114,9 +114,71 @@ function displayProjects() {
       });
 
       const viewButton = $("<button>", {
-        class: "viewButton", // provisional
+        class: "viewButton",
         text: "View",
         css: { flex: "1" },
+      });
+
+      viewButton.on("click", function () {
+        $("#projectButtonContainer").remove();
+        $("#projectsListContainer").remove();
+        $("#contentBoxHeader").html(`Project: ${project.name}`);
+
+        const taskButtonContainer = $("<div>", {
+            id: "taskButtonContainer",
+            class: "buttonContainer flex justify-between",
+          });
+
+          const addTaskInProjectButton = $("<button>", {
+            id: "addTaskInProjectButton",
+            class: "addButton",
+            text: "Add Task to Project",
+            css: { margin: "1rem" },
+          }).attr("tabindex", 0);
+          
+          const goBackButton = $("<button>", {
+            id: "goBackButton",
+            class: "addButton",
+            text: "Go Back",
+            css: { margin: "1rem" },
+          }).attr("tabindex", 0);
+
+          goBackButton.on("click", function () {
+            $("#taskButtonContainer").remove();
+            $("#taskListContainer").remove();
+            $("#contentBoxHeader").html("Projects");
+
+            const projectButtonContainer = $("<div>", {
+                id: "projectButtonContainer",
+                class: "flex-center h-1/6 w-full",
+              });
+
+              const projectsListContainer = $("<div>", {
+                id: "projectsListContainer",
+                class: "listContainer h-5/6",
+              });
+            
+              const addProjectButton = $("<button>", {
+                id: "addProjectButton",
+                class: "addButton",
+                text: "Add Project",
+                tabindex: 0,
+              });
+              projectButtonContainer.append(addProjectButton);
+              $("#contentBoxMain").empty().append(projectButtonContainer, projectsListContainer);
+              displayProjects();
+
+        });
+    
+          taskButtonContainer.append(addTaskInProjectButton, goBackButton);
+
+          const taskListContainer = $("<div>", {
+            id: "taskListContainer",
+            class: "listContainer",
+          });
+
+          $("#contentBoxMain").empty().append(taskButtonContainer, taskListContainer);
+
       });
 
       const deleteButton = $("<button>", {
