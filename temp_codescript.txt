@@ -1,749 +1,431 @@
-src/index.js:
+src/tasks.js:
 
-import "./styles.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import $ from "jquery";
-import loadDatesModule from "./dates.js";
-import loadTasksModule from "./tasks.js";
-import loadProjectsModule from "./projects.js";
-import { updatePriorityBullets } from "./priorities.js";
+import { saveTask, getTasks, deleteTask } from "./localStorage.js";
 
-$(document).ready(function() {
-  function activateMenuItem(item) {
-      $("#sideBarMenu > div").removeClass("active");
-      $(item).addClass("active");
-  }
+function loadTasksModule() {
+  $("#contentBoxHeader").empty();
+  $("#contentBoxMain").empty();
+  $("#contentBoxHeader").html("Tasks");
+  $("#contentBoxMain").addClass("flex flex-col");
 
-  $("#sideBarMenu > div").on("click", function () {
-      activateMenuItem(this);
+  const taskButtonContainer = $("<div>", {
+    id: "taskButtonContainer",
+    class: "flex-center h-1/6 w-full",
+  });
+  const tasksListContainer = $("<div>", {
+    id: "tasksListContainer",
+    class: "listContainer h-5/6",
+  });
 
-      if ($(window).width() < 1200) {
-          if (this.id !== "prioritiesMenu") {
-              $("#sideBar").hide();
-              $("#contentBox").removeClass("expand");
-          }
+  $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
+
+  $("#contentBoxMain").on("click", "#addTaskButton", function () {
+    const addTaskBox = $("<div>", {
+      id: "addTaskBox",
+      class: "box flex flex-col md:flex-row w-full justify-between gap-x-6",
+    });
+
+    const addTaskBoxLeft = $("<div>", {
+      id: "addTaskBoxLeft",
+      class: "flex flex-1 flex-col items-center",
+      style: "flex: 10;",
+    });
+
+    const addTaskBoxLeftTop = $("<div>", {
+      id: "addTaskBoxLeftTop",
+      class: "h-1/2 w-full flex justify-center items-center",
+    });
+
+    const taskInputBox = $("<input>", {
+      type: "text",
+      class:
+        "inputBox",
+      placeholder: "Enter task...",
+    });
+
+    addTaskBoxLeftTop.append(taskInputBox);
+
+    const addTaskBoxLeftBottom = $("<div>", {
+      id: "addTaskBoxLeftBottom",
+      class:
+        "flex flex-wrap sm:flex-row justify-center items-center py-2 w-full",
+    });
+
+    const prioritySelector = $("<select>", {
+      id: "prioritySelector",
+      class: "selector mr-5",
+    })
+      .append(
+        $("<option>", { value: "", text: "Priority", selected: true }),
+        $("<option>", { value: "High", text: "High" }),
+        $("<option>", { value: "Medium", text: "Medium" }),
+        $("<option>", { value: "Low", text: "Low" })
+      )
+      .on("change", function () {
+        $(this).removeClass("high-priority medium-priority low-priority");
+        switch (this.value) {
+          case "High":
+            $(this).addClass("high-priority");
+            break;
+          case "Medium":
+            $(this).addClass("medium-priority");
+            break;
+          case "Low":
+            $(this).addClass("low-priority");
+            break;
+        }
+      });
+    const dateSelector = $("<input>", {
+      type: "date",
+      class: "selector mr-5",
+      value: "",
+      placeholder: "Date",
+    }).on("change", function () {
+      if (this.value) {
+        $(this).addClass("has-date");
+      } else {
+        $(this).removeClass("has-date");
       }
+    });
 
-      switch (this.id) {
-          case "tasksMenu":
-              loadTasksModule();
-              break;
-          case "prioritiesMenu":
-              // loadPrioritiesModule(); Possible future implementation
-              break;
-          case "projectsMenu":
-              loadProjectsModule();
-              break;
-          case "datesMenu":
-              loadDatesModule();
-              break;
+    const projectSelector = $("<select>", {
+      id: "projectSelector",
+      class: "selector",
+    }).append($("<option>", { value: "", text: "Project", disabled: true }));
+
+    addTaskBoxLeftBottom.append(
+      prioritySelector,
+      dateSelector,
+      projectSelector
+    );
+
+    addTaskBoxLeft.append(addTaskBoxLeftTop, addTaskBoxLeftBottom);
+
+    const addTaskBoxRight = $("<div>", {
+      id: "addTaskBoxRight",
+      class: "flex flex-1 flex-col items-center align-center",
+      style: "flex: 3",
+    });
+
+    const addTaskBoxRightTop = $("<div>", {
+      id: "addTaskBoxRightTop",
+      class: "h-1/2 w-full flex justify-center items-center mb-2",
+    });
+
+    const createTaskButton = $("<button>", {
+      id: "createTaskButton",
+      class: "createButton",
+      text: "Add Task",
+    }).attr("tabindex", 0);
+
+
+    createTaskButton.prop("disabled", true);
+
+    createTaskButton.on("click", function () {
+      const id = setTaskId();
+      const name = taskInputBox.val();
+      const priority = prioritySelector.val();
+      const date = dateSelector.val();
+      const project = projectSelector.val(); // TO-DO: Add project logic
+
+      if (name.trim() !== "") {
+        const task = new Task(id, name, priority, date, project);
+        saveTask(task);
+
+        $("#addTaskBox").remove();
+        $("#contentBoxMain").prepend(taskButtonContainer);
+        $("#taskButtonContainer").append(addTaskButton);
+
+        displayTasks(); 
       }
+      updatePriorityMenus();
+    });
+
+    taskInputBox.on("input", function () {
+      const inputText = $(this).val();
+      if (inputText.trim() !== "") {
+        createTaskButton.prop("disabled", false);
+        createTaskButton.attr("tabindex", 0);
+      } else {
+        createTaskButton.prop("disabled", true);
+        createTaskButton.attr("tabindex", -1);
+      }
+    });
+
+    addTaskBoxRightTop.append(createTaskButton);
+
+    const addTaskBoxLRightBottom = $("<div>", {
+      id: "addTaskBoxLRightBottom",
+      class: "h-1/2 w-full flex justify-center items-center",
+    });
+    const third = $("<div>", {
+      class: "h-1/2 w-full flex justify-center",
+    });
+    const fourth = $("<div>", {
+      class: "h-1/2 w-full flex justify-center",
+    });
+
+    const cancelTaskButton = $("<button>", {
+      id: "cancelTaskButton",
+      class: "cancelButton",
+      text: "Cancel",
+    }).attr("tabindex", 0);
+
+    cancelTaskButton.on("click", function () {
+      $("#addTaskBox").remove();
+      $("#contentBoxMain").prepend(taskButtonContainer);
+      $("#taskButtonContainer").append(addTaskButton);
+    });
+
+    addTaskBoxLRightBottom.append(cancelTaskButton);
+
+    addTaskBoxRight.append(
+      addTaskBoxRightTop,
+      addTaskBoxLRightBottom,
+      third,
+      fourth
+    );
+
+    addTaskBox.append(addTaskBoxLeft, addTaskBoxRight);
+    taskButtonContainer.replaceWith(addTaskBox);
   });
 
-  // Activa el elemento 'tasks' cuando la página se cargue
-  activateMenuItem("#tasksMenu");
-});
-
-
-$(function () {
-  loadTasksModule();
-
-  $("#burgerMenu").on("click", function () {
-    var icon = $(this).find("i");
-
-    if (icon.hasClass("rotated")) {
-      icon.removeClass("rotated");
-    } else {
-      icon.addClass("rotated");
-    }
-
-    $("#sideBar").toggle();
-    $("#contentBox").toggleClass("expand");
+  const addTaskButton = $("<button>", {
+    id: "addTaskButton",
+    class: "addButton mb-1",
+    text: "Add Task",
+    tabindex: 0,
   });
+  taskButtonContainer.append(addTaskButton);
 
-  $("#prioritiesMenu").on("click", function (e) {
-    e.stopPropagation();
-    $("#prioritiesSubMenu").toggle();
-    $(this).find(".fa-chevron-right").toggleClass("rotated-down");
-  });
-
-  $("#prioritiesSubMenu > div").on("click", function (e) {
-    e.stopPropagation();
-  });
-
-  $(document).on("click", function () {
-    $("#prioritiesSubMenu").hide();
-    $("#prioritiesMenu .fa-chevron-right").removeClass("rotated-down");
-  });
-
-  $("#tasksMenu").on("click", function () {
-    loadTasksModule();
-    updatePriorityBullets();
-  });
-
-  $("#projectsMenu").on("click", function () {
-    loadProjectsModule();
-  });
-
-  $("#datesMenu").on("click", function () {
-    loadDatesModule();
-  });
-});
-
-----------------------------------------
-
-src/priorities.js:
-
-import { saveTask, getTasks } from "./localStorage.js";
-
-
-
-// Possible future implementation
-export function loadPrioritiesModule() {
-    $('#contentBoxHeader').empty();
-    $('#contentBoxMain').empty(); 
-    $('#contentBoxHeader').html('Priorities');
-    $('#contentBoxMain').html('Priorities Module Content');
-}
-
-export function updatePriorityBullets() {
-    const tasks = getTasks();
-
-    const hasLowPriorityTask = checkForLowPriorityTasks(); // Debes implementar esta función
-
-    // Encuentra el bullet point correspondiente
-    var lowPriorityBullet = $("#prioritiesSubMenu .lowPriorityMenu::before"); // Ajusta el selector si es necesario
-
-    // Añade o elimina la clase basada en si hay tareas con prioridad "low"
-    if (hasLowPriorityTasks) {
-        lowPriorityBullet.addClass("low-priority-bullet");
-    } else {
-        lowPriorityBullet.removeClass("low-priority-bullet");
-    }
-}
-  
-var tasks = [
-    { id: 1, name: "Task 1", priority: "high" },
-    { id: 2, name: "Task 2", priority: "medium" },
-    { id: 3, name: "Task 2", priority: "medium" },
-];
-
-function checkForLowPriorityTasks() {
-    // Buscar a través del arreglo de tareas para encontrar si alguna tiene la prioridad "low"
-    return tasks.some(task => task.priority === "low");
-}
-
-----------------------------------------
-
-src/styles.css:
-
-/* src/styles.css */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-html {
-    height: 100%;
-}
-
-body {
-    height: 100%;
-    font-size: 1.5rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #71717a;
-    font-size: 2.25rem;
-    font-family: monospace;
-    min-height: 7.5rem;
-    max-height: 7.5rem;
-}
-
-#mainContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    flex: 14;
-
-}
-
-#mainBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100% * 13/14);
-    width: 70%;
-    border-radius: 40px;
-    align-items: flex-start;
-    position: relative;
-    margin-bottom: 30px;
-    flex-grow: 1;
-}
-
-#burgerMenu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 3rem;
-    height: 3rem;
-    position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
-    border-radius: 50%;
-    align-self: flex-start;
-    font-size: 1.5rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-}
-
-#burgerMenu:hover i.fas {
-    color: #71717a;
-}
-
-#burgerMenu:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-#sideBar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 20rem;
-    border-top-left-radius: 40px;
-    border-bottom-left-radius: 40px;
-    height: 100%;
-    box-sizing: border-box;
-    max-height: 100%;
-
-}
-
-/* may erase */
-#sideBar::-webkit-scrollbar {
-    width: 15px;
-    background-color: transparent;
-}
-
-#sideBar::-webkit-scrollbar-thumb {
-    background-color: #A8A29E;
-    border-radius: 6px;
-    background-clip: content-box;
-    border: 4px solid transparent;
-}
-
-#sideBar::-webkit-scrollbar-track {
-    border-radius: 15px;
-    margin: 40px;
-}
-
-#sideBarHeader {
-    height: 5rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    overflow-y: auto;
-    margin-bottom: 0.75rem;
-}
-
-#sideBarMenu {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 2rem;
-    padding-left: 3.75rem;
-    color: #4B5563;
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    font-size: 1.5rem;
-}
-
-#sideBarMenu>div {
-    padding-bottom: 0.5rem;
-
-}
-
-#sideBarMenu>div i {
-    width: 30px;
-    margin-right: 0.5rem;
-}
-
-#sideBarMenu>div:hover i {
-    color: #6b7280;
-}
-
-#sideBarMenu>div.active i {
-    color: #6b7280 !important;
-}
-
-#prioritiesSubMenu>div {
-    padding-top: 0.5rem;
-    margin-left: 2.5rem;
-    color: #78716C;
-    display: flex;
-    align-items: center;
-    font-size: 1.25rem;
-}
-
-#prioritiesSubMenu>div:last-child {
-    padding-bottom: 0.75rem;
-}
-
-/* Bullet points */
-#prioritiesSubMenu>div::before {
-    content: '';
-    display: inline-block;
-    margin-right: 1rem;
-    height: 0.75rem;
-    width: 0.75rem;
-    background-color: #78716C;
-    border-radius: 50%;
-}
-
-
-#contentBox {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    width: 90%;
-    height: 100%;
-    border-top-right-radius: 47px;
-    border-bottom-right-radius: 47px;
-    min-height: calc(100% * 11.5/14);
-}
-
-#contentBoxHeader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2rem;
-    padding-top: 3rem;
-    padding-bottom: 1rem;
-    width: 100%;
-    font-family: 'Arial', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 100;
-}
-
-#contentBoxMain {
-    display: flex;
-    /* flex-wrap: wrap; */
-    /* flex-direction: row; */
-    /* align-items: stretch; */
-    justify-content: center;
-    align-items: center;
-    /* height: calc(100% * 11.5/14); */
-    width: 100%;
-    font-size: 1.25rem;
-    height: 100%;
-    /* flex-grow: 0; */
-    padding-bottom: 5rem;
-}
-
-#footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1.75;
-    font-size: 1.15rem;
-    min-height: 5rem;
-    font-family: Arial, sans-serif;
-    color: #a8a29e;
-}
-
-#footer .fa-github {
-    margin-right: 1.25rem;
-    font-size: 2rem;
-}
-
-/* may erase */
-.font-arial {
-    font-family: Arial, sans-serif;
-}
-
-/* ANIMATIONS AND TRANSITIONS */
-
-/* make expansion transition */
-.expand {
-    width: 75%;
-    border-top-left-radius: 47px;
-    border-bottom-left-radius: 47px;
-}
-
-#contentBox.expand {
-    flex-grow: 1;
-}
-
-.rotate-icon {
-    transition: transform 0.5s ease-in-out;
+  displayTasks();
 }
 
-.rotated {
-    transform: rotate(180deg);
+function setTaskId() {
+  return Date.now().toString();
 }
-
-.rotated-down {
-    transform: rotate(90deg) translateX(25%);
-}
-
-.active i {
-    color: #6b7280;
-}
-
-.hidden {
-    display: none;
-}
-
-/* SPECIAL CLASSES */
-
-.addButton {
-    background-color: #D4D4D8;
-    border-radius: 14px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    width: 175px;
-    height: 2.5rem;
-    font-size: smaller;
-    color: #4B5563;
-    transition: background-color 0.3s, transform 0.3s;
-    margin-top: 1rem;
-    /* Aumenta para más espacio en la parte superior */
-    margin-bottom: 1rem;
-}
-
-.addButton:hover {
-    background-color: #cacaca;
-    color: black;
-    transform: scale(1.07);
-}
-
-.box {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    border: 1.5px solid #a8a29e;
-    border-radius: 18px;
-    padding-top: 0;
-    padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    width: 90%;
-
-    /* overflow-y: auto; 
-    max-height: 100%; */
-}
-
-#tasksListContainer .box {
-    padding-top: 15px;
-    /* o el valor que prefieras */
-    padding-right: 15px;
-    /* o el valor que prefieras */
-
-}
-
-.selector {
-    border-radius: 10px;
-    background-color: #BFDBFE;
-    appearance: none;
-    padding: 5px 10px;
-    flex: 1;
-    color: #4B5563;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1.25em' height='1.25em' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right .7em center;
-    padding-right: 2.5em;
-    height: 2.5rem;
-    max-height: 2.5rem;
-    ;
-    font-size: 1rem;
-}
-
-.selector:hover {
-    transform: scale(1.1);
-}
-
-input[type="date"]:not(.has-date) {
-    color: transparent;
-}
-
-input[type="date"]:not(.has-date)::before {
-    content: "Date";
-    color: #4B5563;
-    display: inline-block;
-    margin-left: 5px;
-}
-
-input[type="date"].has-date::before {
-    content: "" !important;
-}
-
-.high-priority {
-    background-color: #EF4444;
-    color: #fee2e2;
-}
-
-.high-priority-bullet {
-    background-color: #EF4444;
-}
-
-.medium-priority {
-    background-color: #FBBF24;
-    color: #374151;
-}
-
-.medium-priority-bullet {
-    background-color: #FBBF24;
-}
-
-.low-priority {
-    background-color: #0EA5E9;
-    color: #e0f2fe;
-}
-
-.low-priority-bullet {
-    background-color: #0EA5E9;
-}
-
-.low-priority-bullet::before {
-    background-color: #0EA5E9; /* Ajusta el color según tus necesidades */
-}
-
-
-.createButton {
-    border-radius: 10px;
-    background-color: #D4D4D8;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    height: 2.5rem;
-    font-size: 1rem;
-    color: #374151;
-}
-
-.createButton:hover {
-    background-color: #cacaca;
-    color: black;
-    transform: scale(1.07);
-}
-
-.cancelButton {
-    border-radius: 10px;
-    background-color: #BE123C;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    height: 2.5rem;
-    color: #FECDD3;
-    font-size: 1rem;
-}
-
-.cancelButton:hover {
-    background-color: #9f1239;
-    color: white;
-    transform: scale(1.07);
-}
-
-.listContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* overflow-y: auto; */
-    width: 100%;
-    height: auto;
-    margin-bottom: 1rem;
-    color: #374151;
-    font-size: 1.3rem;
-}
-
-.task-separator {
-    position: relative;
-    /* border-bottom: 1px solid #A8A29E; */
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.task-separator::after {
-    content: '';
-    position: absolute;
-    left: -20px;
-    right: -17px;
-    bottom: 0;
-    width: auto;
-    border-bottom: 1px solid #A8A29E;
-}
-
-.taskListElement:last-child .task-separator::after {
-    border-bottom: none;
-}
-
-.completeButton {
-    border-radius: 0 10px 0 10px;
-    background-color: #BE123C;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    height: 2.5rem;
-    color: #FECDD3;
-    font-size: 1rem;
-    width: 6rem;
-    height: 2.25rem;
-}
-
-
-.completeButton:hover {
-    background-color: #9f1239;
-    color: white;
-    transform: scale(1.07);
-}
-
-.label {
-    background-color: #BFDBFE;
-    border-radius: 10px;
-    padding: 5px 20px;
-    color: #4B5563;
-    font-size: 1rem;
-    margin-right: 1rem;
-    min-width: 5rem;
-    text-align: center;
-}
-
-.taskListElementBottom .high-priority {
-    background-color: #EF4444;
-    color: #fee2e2;
-}
-
-.taskListElementBottom .medium-priority {
-    background-color: #FBBF24;
-    color: #374151;
-}
-
-.taskListElementBottom .low-priority {
-    background-color: #0EA5E9;
-    color: #e0f2fe;
-}
-
-
-/* RESPONSIVENESS */
-
-@media (max-width: 1200px) {
-    #sideBar {
-        display: none;
-        width: 100%;
-        height: 100%;
-        border-radius: 40px;
-        position: absolute;
-        box-sizing: border-box;
-        overflow-y: hidden;
-        z-index: 100;
-    }
-
-    #burgerMenu {
-        z-index: 101;
-    }
-
-    #contentBox {
-        border-radius: 40px;
-        width: 90%;
-    }
-
-    #contentBoxHeder {
-        margin-bottom: 2rem;
-    }
-
-    #sideBarMenu {
-        align-items: flex-start;
-        font-size: 1.5rem;
-    }
-
-    #sideBarMenu>div {
-        padding-bottom: 1.5rem;
-        padding-left: 25%;
-    }
-
-    #prioritiesSubMenu {
-        padding-top: 0.5rem;
-        margin-left: 0;
-    }
-
-    #prioritiesSubMenu>div {
-        align-items: center;
-        margin-left: 2rem;
-    }
-
-    #prioritiesSubMenu>div:last-child {
-        padding-bottom: 0;
-    }
-
-    #burgerMenu {
-        z-index: 101;
-        top: 1.25rem;
-        left: 1.25rem;
-        font-size: 1.5rem;
-    }
-
-    #addTaskBoxLeft,
-    #addTaskBoxRight,
-    #addTaskBoxLeftBottom {
-        width: 100%;
-    }
-
-    .selector {
-        margin-bottom: 10px;
-        flex-basis: 100%;
-        margin-right: 5px;
-    }
-
-
-}
-
-@media screen and (max-height: 500px) {
-    #footer {
-        display: none;
-    }
-}
-----------------------------------------
-
-src/localStorage.js:
 
-export function saveTask(task) {
+function displayTasks() {
   const tasks = getTasks();
+  const taskListContainer = $("#tasksListContainer",);
+  taskListContainer.empty();
 
-  if (!task.id) {
-    task.id = Date.now().toString();
+  if (tasks.length > 0) {
+    tasks.sort((a, b) => b.id - a.id);
+    const taskListBox = $("<div>", {
+      class: "box",
+    });
+
+    tasks.forEach((task, index) => {
+
+      const taskListElement = $("<div>", {
+        class: "taskListElement" + (index < tasks.length - 1 ? " task-separator" : "") + " flex flex-col",
+      });
+
+      const taskListElementTop = $("<div>", {
+        class: "taskListElementTop flex justify-between items-center w-full",
+      });
+
+      const taskName = $("<span>", {
+        class: "taskName",
+        text: task.name
+      });
+
+      const completeButton = $("<button>", {
+        class: "completeButton",
+        text: "Complete",
+        "data-id": task.id
+      }).attr("tabindex", 0);
+
+      completeButton.on("click", function() {
+        const taskId = $(this).data('id').toString();
+        const wasDeleted = deleteTask(taskId);
+
+        if (wasDeleted) {
+          $(this).closest('.taskListElement').remove();
+
+          if (getTasks().length === 1) {
+            $('.taskListElement').removeClass('task-separator');
+          }
+
+          if (getTasks().length === 0) {
+            $("#tasksListContainer").empty();
+          }
+        } else {
+          console.error('Task could not be deleted.');
+        }
+        updatePriorityMenus();
+      });
+      
+
+      taskListElementTop.append(taskName, completeButton);
+
+      
+      const taskListElementBottom = $("<div>", {
+        class: "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center py-2 w-full",
+      });
+
+      if (task.priority) {
+        let priorityClass = '';
+        switch (task.priority) {
+          case 'High':
+            priorityClass = 'high-priority';
+            break;
+          case 'Medium':
+            priorityClass = 'medium-priority';
+            break;
+          case 'Low':
+            priorityClass = 'low-priority';
+            break;
+        }
+
+        const priorityLabel = $("<span>", {
+          class: `label priorityLabel ${priorityClass}`,
+          text: task.priority  
+        });
+        taskListElementBottom.append(priorityLabel);
+      }
+
+      if (task.date) {
+        const dateLabel = $("<span>", {
+          class: "label dateLabel",
+          text: task.date
+        });
+        taskListElementBottom.append(dateLabel);
+      }
+    
+    
+      if (task.project) {
+        const projectLabel = $("<span>", {
+          class: "label projectLabel",
+          text: task.project
+        });
+        taskListElementBottom.append(projectLabel);
+      }
+
+
+      taskListElement.append(taskListElementTop, taskListElementBottom);
+
+      taskListBox.append(taskListElement);
+
+    });
+
+    taskListContainer.append(taskListBox);
   }
-
-  tasks.push(task);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  updatePriorityMenus(); 
 }
 
-export function getTasks() {
-  const tasksJSON = localStorage.getItem("tasks");
-  if (tasksJSON) {
-    return JSON.parse(tasksJSON);
-  }
-  return [];
+export default loadTasksModule;
+
+export function updatePriorityMenus() {
+  const tasks = getTasks();
+  const priorityLevels = ['High', 'Medium', 'Low'];
+
+  priorityLevels.forEach((priority) => {
+    const hasPriorityTask = tasks.some(task => task.priority === priority);
+    const menuSelector = `#${priority.toLowerCase()}PriorityMenu`;
+    const bulletClass = `${priority.toLowerCase()}-priority-bullet`;
+
+    if (hasPriorityTask) {
+      $(menuSelector).addClass(bulletClass);
+    } else {
+      $(menuSelector).removeClass(bulletClass);
+    }
+  });
 }
 
-export function deleteTask(taskId) {
-  let tasks = getTasks();
-  const tasksBefore = tasks.length;
-  taskId = taskId.toString();
-  tasks = tasks.filter(task => task.id !== taskId);
-  const tasksAfter = tasks.length;
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  
-  return tasksBefore > tasksAfter;
+
+class Task {
+  constructor(id, name, priority, date, project) {
+    this.id = id;
+    this.name = name;
+    this.priority = priority;
+    this.date = date;
+    this.project = project;
+  }
+}
+
+----------------------------------------
+
+src/projects.js:
+
+import { saveProject, getProjects, deleteProject } from "./localStorage.js";
+
+function loadProjectsModule() {
+  $("#contentBoxHeader").empty();
+  $("#contentBoxMain").empty();
+  $("#contentBoxHeader").html("Projects");
+
+  const projectButtonContainer = $("<div>", {
+    id: "projectButtonContainer",
+    class: "flex-center h-1/6 w-full",
+  });
+
+  const projectsListContainer = $("<div>", {
+    id: "projectsListContainer",
+    class: "listContainer h-5/6",
+  });
+
+  $("#contentBoxMain").append(projectButtonContainer, projectsListContainer);
+
+  const addProjectButton = $("<button>", {
+    id: "addProjectButton",
+    class: "addButton",
+    text: "Add Project",
+    tabindex: 0,
+  });
+
+  projectButtonContainer.append(addProjectButton);
+
+
+  $("#contentBoxMain").on("click", "#addProjectButton", function () {
+    const addProjectBox = $("<div>", {
+      id: "addProjectBox",
+      class: "box flex flex-col md:flex-row w-full justify-between gap-x-6 gap-y-2",
+    });
+
+    const projectInputBox = $("<input>", {
+      type: "text",
+      class: "inputBox",
+      placeholder: "Enter project name...",
+      css: { flex: "3" },
+    });
+
+    const createProjectButton = $("<button>", {
+      id: "createProjectButton",
+      class: "createButton",
+      text: "Add Project",
+      css: { flex: "1" },
+    }).attr("tabindex", 0);
+
+    const cancelProjectButton = $("<button>", {
+      id: "cancelProjectButton",
+      class: "cancelButton",
+      text: "Cancel",
+      css: { flex: "1" },
+    }).attr("tabindex", 0);
+    
+    cancelProjectButton.on("click", function () {
+        $("#addProjectBox").remove();
+        $("#contentBoxMain").prepend(projectButtonContainer);
+      });
+
+
+      addProjectBox.append(projectInputBox, createProjectButton, cancelProjectButton);
+      projectButtonContainer.replaceWith(addProjectBox);
+
+
+    // displayProjects();
+    });
+}
+
+export default loadProjectsModule;
+
+class Project {
+  constructor(id, name) {
+    this.id = id;
+    this.name = name;
+  }
 }
 
 ----------------------------------------

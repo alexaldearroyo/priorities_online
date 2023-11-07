@@ -440,20 +440,24 @@ input[type="date"].has-date::before {
     font-size: 1.3rem;
 }
 
-.task-separator {
+.task-separator, .project-separator {
     position: relative;
     padding-bottom: 10px;
     margin-bottom: 15px;
 }
 
-.task-separator::after {
+.task-separator::after, .project-separator::after {
     content: '';
     position: absolute;
     left: -20px;
-    right: -17px;
+    right: -20px;
     bottom: 0;
     width: auto;
     border-bottom: 1px solid #A8A29E;
+}
+
+.task-separator::after {
+    right: -16px !important;
 }
 
 .taskListElement:last-child .task-separator::after {

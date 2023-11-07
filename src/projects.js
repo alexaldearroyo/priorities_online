@@ -26,11 +26,11 @@ function loadProjectsModule() {
 
   projectButtonContainer.append(addProjectButton);
 
-
   $("#contentBoxMain").on("click", "#addProjectButton", function () {
     const addProjectBox = $("<div>", {
       id: "addProjectBox",
-      class: "box flex flex-col md:flex-row w-full justify-between gap-x-6 gap-y-2",
+      class:
+        "box flex flex-col md:flex-row w-full justify-between gap-x-6 gap-y-2",
     });
 
     const projectInputBox = $("<input>", {
@@ -53,19 +53,71 @@ function loadProjectsModule() {
       text: "Cancel",
       css: { flex: "1" },
     }).attr("tabindex", 0);
-    
-    cancelProjectButton.on("click", function () {
+
+    addProjectBox.append(
+      projectInputBox,
+      createProjectButton,
+      cancelProjectButton
+    );
+    projectButtonContainer.replaceWith(addProjectBox);
+
+    createProjectButton.off("click").on("click", function () {
+        const id = setProjectId();
+      const name = projectInputBox.val();
+
+      if (name.trim() !== "") {
+        const project = new Project(id, name);
+        saveProject(project);
+
         $("#addProjectBox").remove();
         $("#contentBoxMain").prepend(projectButtonContainer);
+        $("#projectButtonContainer").append(addProjectButton);
+
+        displayProjects();
+      }
+    });
+
+    cancelProjectButton.off("click").on("click", function () {
+      $("#addProjectBox").remove();
+      $("#contentBoxMain").prepend(projectButtonContainer);
+    });
+  });
+
+  displayProjects();
+}
+
+function setProjectId() {
+  return Date.now().toString();
+}
+
+function displayProjects() {
+  const projects = getProjects();
+  const projectsListContainer = $("#projectsListContainer").empty();
+
+  if (projects.length > 0) {
+    projects.sort((a, b) => b.id - a.id);
+    const projectListBox = $("<div>", {
+      class: "box",
+    });
+
+    projects.forEach((project, index) => {
+        
+      const projectLisElement = $("<div>", {
+        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex flex-col",
       });
 
+      const projectName = $("<span>", {
+        class: "projectName",
+        text: project.name
+      });
 
-      addProjectBox.append(projectInputBox, createProjectButton, cancelProjectButton);
-      projectButtonContainer.replaceWith(addProjectBox);
-
-
-    // displayProjects();
+    
+      projectLisElement.append(projectName);
+      projectListBox.append(projectLisElement);
     });
+    projectsListContainer.append(projectListBox);
+
+  }
 }
 
 export default loadProjectsModule;
