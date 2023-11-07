@@ -226,7 +226,7 @@ body {
     font-size: 1.15rem;
     min-height: 5rem;
     font-family: Arial, sans-serif;
-    color: #6b7280;
+    color: #a8a29e;
 }
 
 #footer .fa-github {
@@ -305,11 +305,18 @@ body {
     margin-top: 20px;
     margin-bottom: 10px;
     width: 90%;
-    
+
     /* overflow-y: auto; 
     max-height: 100%; */
 }
 
+#tasksListContainer .box {
+    padding-top: 15px;
+    /* o el valor que prefieras */
+    padding-right: 15px;
+    /* o el valor que prefieras */
+
+}
 
 .selector {
     border-radius: 10px;
@@ -384,7 +391,6 @@ input[type="date"].has-date::before {
     height: 2.5rem;
     color: #FECDD3;
     font-size: 1rem;
-
 }
 
 .cancelButton:hover {
@@ -402,23 +408,68 @@ input[type="date"].has-date::before {
     height: auto;
     margin-bottom: 1rem;
     color: #374151;
-    
+    font-size: 1.3rem;
 }
 
 .task-separator {
     position: relative;
     /* border-bottom: 1px solid #A8A29E; */
     padding-bottom: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .task-separator::after {
     content: '';
     position: absolute;
     left: -20px;
-    right: -20px;
+    right: -17px;
     bottom: 0;
+    width: auto;
     border-bottom: 1px solid #A8A29E;
+    
+}
+
+.completeButton {
+    border-radius: 0 10px 0 10px;
+    background-color: #BE123C;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 2.5rem;
+    color: #FECDD3;
+    font-size: 1rem;
+    width: 6rem;
+    height: 2.25rem;
+}
+
+
+.completeButton:hover {
+    background-color: #9f1239;
+    color: white;
+    transform: scale(1.07);
+}
+
+.label {
+    background-color: #BFDBFE;
+    border-radius: 10px;
+    padding: 5px 10px;
+    color: #4B5563;
+    font-size: 1rem;
+    margin-right: 1rem;
+    min-width: 5rem;
+}
+
+.taskListElementBottom .high-priority {
+    background-color: #EF4444;
+    color: #fee2e2;
+}
+
+.taskListElementBottom .medium-priority {
+    background-color: #FBBF24;
+    color: #374151;
+}
+
+.taskListElementBottom .low-priority {
+    background-color: #0EA5E9;
+    color: #e0f2fe;
 }
 
 

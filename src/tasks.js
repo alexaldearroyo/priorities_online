@@ -214,11 +214,72 @@ function displayTasks() {
     tasks.forEach((task, index) => {
 
       const taskListElement = $("<div>", {
-        class: "taskListElement" + (index < tasks.length - 1 ? " task-separator" : ""),
-        text: task.name,
+        class: "taskListElement" + (index < tasks.length - 1 ? " task-separator" : "") + " flex flex-col",
       });
 
+      const taskListElementTop = $("<div>", {
+        class: "taskListElementTop flex justify-between items-center w-full",
+      });
+
+      const taskName = $("<span>", {
+        class: "taskName",
+        text: task.name
+      });
+
+      const completeButton = $("<button>", {
+        class: "completeButton",
+        text: "Complete"
+      });
+
+      taskListElementTop.append(taskName, completeButton);
+
+      const taskListElementBottom = $("<div>", {
+        class: "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center py-2 w-full",
+      });
+
+      if (task.priority) {
+        let priorityClass = '';
+        switch (task.priority) {
+          case 'High':
+            priorityClass = 'high-priority';
+            break;
+          case 'Medium':
+            priorityClass = 'medium-priority';
+            break;
+          case 'Low':
+            priorityClass = 'low-priority';
+            break;
+        }
+
+        const priorityLabel = $("<span>", {
+          class: `label priorityLabel ${priorityClass}`,
+          text: task.priority
+        });
+        taskListElementBottom.append(priorityLabel);
+      }
+
+      if (task.date) {
+        const dateLabel = $("<span>", {
+          class: "label dateLabel",
+          text: task.date
+        });
+        taskListElementBottom.append(dateLabel);
+      }
+    
+    
+      if (task.project) {
+        const projectLabel = $("<span>", {
+          class: "label projectLabel",
+          text: task.project
+        });
+        taskListElementBottom.append(projectLabel);
+      }
+
+
+      taskListElement.append(taskListElementTop, taskListElementBottom);
+
       taskListBox.append(taskListElement);
+
     });
 
     taskListContainer.append(taskListBox);
