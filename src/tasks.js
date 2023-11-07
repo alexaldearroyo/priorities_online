@@ -1,4 +1,4 @@
-import { saveTask, getTasks } from "./localStorage.js";
+import { saveTask, getTasks, deleteTask } from "./localStorage.js";
 
 function loadTasksModule() {
   $("#contentBoxHeader").empty();
@@ -115,7 +115,8 @@ function loadTasksModule() {
       id: "createTaskButton",
       class: "createButton w-full mb-2",
       text: "Add Task",
-    });
+    }).attr("tabindex", 0);
+
 
     createTaskButton.prop("disabled", true);
 
@@ -136,14 +137,17 @@ function loadTasksModule() {
 
         displayTasks(); 
       }
+
     });
 
     taskInputBox.on("input", function () {
       const inputText = $(this).val();
       if (inputText.trim() !== "") {
         createTaskButton.prop("disabled", false);
+        createTaskButton.attr("tabindex", 0);
       } else {
         createTaskButton.prop("disabled", true);
+        createTaskButton.attr("tabindex", -1);
       }
     });
 
@@ -164,7 +168,7 @@ function loadTasksModule() {
       id: "cancelTaskButton",
       class: "cancelButton w-full",
       text: "Cancel",
-    });
+    }).attr("tabindex", 0);
 
     cancelTaskButton.on("click", function () {
       $("#addTaskBox").remove();
@@ -189,7 +193,9 @@ function loadTasksModule() {
     id: "addTaskButton",
     class: "addButton mb-1",
     text: "Add Task",
+    tabindex: 0,
   });
+
   taskButtonContainer.append(addTaskButton);
 
   displayTasks();
@@ -228,11 +234,27 @@ function displayTasks() {
 
       const completeButton = $("<button>", {
         class: "completeButton",
-        text: "Complete"
+        text: "Complete",
+        "data-id": task.id
+      }).attr("tabindex", 0);
+
+      completeButton.on("click", function() {
+        const taskId = $(this).data('id').toString();
+        const wasDeleted = deleteTask(taskId);
+        if (wasDeleted) {
+          $(this).closest('.taskListElement').remove();
+          if (getTasks().length === 0) {
+            $("#tasksListContainer").empty();
+          }
+        } else {
+          console.error('Task could not be deleted.');
+        }
       });
+      
 
       taskListElementTop.append(taskName, completeButton);
 
+      
       const taskListElementBottom = $("<div>", {
         class: "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center py-2 w-full",
       });
@@ -253,7 +275,7 @@ function displayTasks() {
 
         const priorityLabel = $("<span>", {
           class: `label priorityLabel ${priorityClass}`,
-          text: task.priority
+          text: task.priority  
         });
         taskListElementBottom.append(priorityLabel);
       }

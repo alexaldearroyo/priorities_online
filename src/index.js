@@ -4,7 +4,7 @@ import $ from "jquery";
 import loadDatesModule from "./dates.js";
 import loadTasksModule from "./tasks.js";
 import loadProjectsModule from "./projects.js";
-import loadPrioritiesModule from "./priorities.js";
+import { updatePriorityBullets } from "./priorities.js";
 
 $(document).ready(function() {
   function activateMenuItem(item) {
@@ -27,7 +27,7 @@ $(document).ready(function() {
               loadTasksModule();
               break;
           case "prioritiesMenu":
-              loadPrioritiesModule();
+              // loadPrioritiesModule(); Possible future implementation
               break;
           case "projectsMenu":
               loadProjectsModule();
