@@ -33,6 +33,10 @@ function loadProjectsModule() {
   $("#contentBoxMain").append(projectButtonContainer, projectsListContainer);
 
   $("#contentBoxMain").on("click", "#addProjectButton", function () {
+
+    $(".viewButton").prop("disabled", true);
+    $(".deleteButton").prop("disabled", true);
+
     const addProjectBox = $("<div>", {
       id: "addProjectBox",
       class:
@@ -81,11 +85,17 @@ function loadProjectsModule() {
 
         displayProjects();
       }
+      $(".viewButton").prop("disabled", false);
+      $(".deleteButton").prop("disabled", false);
+  
     });
 
     cancelProjectButton.off("click").on("click", function () {
       $("#addProjectBox").remove();
       $("#contentBoxMain").prepend(projectButtonContainer);
+      $(".viewButton").prop("disabled", false);
+      $(".deleteButton").prop("disabled", false);
+  
     });
   });
 
@@ -231,6 +241,7 @@ function displayProjects() {
             });
 
             const projectNameLabel = $("<span>", {
+              value: project.name,
               text: project.name,
               class: "label2",
             });
@@ -260,17 +271,19 @@ function displayProjects() {
               text: "Add Task",
             }).attr("tabindex", 0);
 
+           
+
             createTaskButton.prop("disabled", true);
 
             createTaskButton.on("click", function () {
               const id = setTaskId();
               const name = taskInputBox.val();
               const priority = prioritySelector.val();
-              const date = dateSelector.val();
-            //   const project = projectName;
+              const date = dateSelector.val();            
+              const projectNameText = projectName.text();
 
               if (name.trim() !== "") {
-                const task = new Task(id, name, priority, date, project);
+                const task = new Task(id, name, priority, date, projectNameText);
                 saveTask(task);
 
                 $("#addTaskBox").remove();
@@ -280,7 +293,7 @@ function displayProjects() {
                   goBackButton
                 );
 
-                displayTasks(project.name);
+                displayTasks(projectNameText);
               }
               updatePriorityMenus();
             });
