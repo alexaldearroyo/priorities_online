@@ -230,16 +230,12 @@ function displayTasks() {
           " flex flex-col",
       });
 
-      // const taskListElementTop = $("<div>", {
-      //   class: "taskListElementTop flex justify-between items-center w-full mb-1",
-      // });
-
       const taskName = $("<span>", {
-        class: "taskName", // NEW FLEX
+        class: "taskName",
         text: task.name,
       });
 
-      taskListElement.append(taskName); // NEW
+      taskListElement.append(taskName);
 
       if (task.priority) {
         let priorityClass = "";
@@ -260,7 +256,7 @@ function displayTasks() {
           text: task.priority,
         });
         // taskListElementBottom.append(priorityLabel);
-        taskListElement.append(priorityLabel); // NEW
+        taskListElement.append(priorityLabel);
       }
 
       if (task.date) {
@@ -268,8 +264,7 @@ function displayTasks() {
           class: "label dateLabel",
           text: task.date,
         });
-        // taskListElementBottom.append(dateLabel);
-        taskListElement.append(dateLabel); // NEW
+        taskListElement.append(dateLabel);
 
       }
 
@@ -278,11 +273,8 @@ function displayTasks() {
           class: "label projectLabel",
           text: task.project,
         });
-        // taskListElementBottom.append(projectLabel); 
-        taskListElement.append(projectLabel); // NEW
+        taskListElement.append(projectLabel);
       }
-
-      // taskListElement.append(taskListElementTop, taskListElementBottom);
 
       const completeButton = $("<button>", {
         class: "completeButton",
@@ -298,13 +290,11 @@ function displayTasks() {
           const taskElement = $(this).closest(".taskListElement");
           taskElement.remove();
       
-          // Elimina el separador del nuevo último elemento, si hay más de uno
           const remainingTasks = $(".taskListElement");
           if (remainingTasks.length > 0) {
             remainingTasks.last().removeClass("task-separator");
           }
       
-          // Si ya no hay tareas, limpia el contenedor
           if (remainingTasks.length === 0) {
             $("#tasksListContainer").empty();
           }
@@ -314,14 +304,7 @@ function displayTasks() {
         updatePriorityMenus();
       });
 
-      // taskListElementTop.append(taskName, completeButton);
-
-      // const taskListElementBottom = $("<div>", {
-      //   class:
-      //     "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1 gap-y-4",
-      // });
-
-      taskListElement.append(completeButton); // NEW
+      taskListElement.append(completeButton);
 
       taskListBox.append(taskListElement);
     });
@@ -329,6 +312,7 @@ function displayTasks() {
     taskListContainer.append(taskListBox);
   }
   updatePriorityMenus();
+  return mainContainer;
 }
 
 export default loadTasksModule;

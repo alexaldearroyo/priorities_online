@@ -10,7 +10,7 @@ function loadTasksModule() {
 
   const taskButtonContainer = $("<div>", {
     id: "taskButtonContainer",
-    class: "flex-center h-1/6 w-full",
+    class: "buttonContainer h-1/6",
   });
   const tasksListContainer = $("<div>", {
     id: "tasksListContainer",
@@ -232,14 +232,59 @@ function displayTasks() {
           " flex flex-col",
       });
 
-      const taskListElementTop = $("<div>", {
-        class: "taskListElementTop flex justify-between items-center w-full",
-      });
+      // const taskListElementTop = $("<div>", {
+      //   class: "taskListElementTop flex justify-between items-center w-full mb-1",
+      // });
 
       const taskName = $("<span>", {
-        class: "taskName",
+        class: "taskName", // NEW FLEX
         text: task.name,
       });
+
+      taskListElement.append(taskName); // NEW
+
+      if (task.priority) {
+        let priorityClass = "";
+        switch (task.priority) {
+          case "High":
+            priorityClass = "high-priority";
+            break;
+          case "Medium":
+            priorityClass = "medium-priority";
+            break;
+          case "Low":
+            priorityClass = "low-priority";
+            break;
+        }
+
+        const priorityLabel = $("<span>", {
+          class: `label priorityLabel ${priorityClass}`,
+          text: task.priority,
+        });
+        // taskListElementBottom.append(priorityLabel);
+        taskListElement.append(priorityLabel); // NEW
+      }
+
+      if (task.date) {
+        const dateLabel = $("<span>", {
+          class: "label dateLabel",
+          text: task.date,
+        });
+        // taskListElementBottom.append(dateLabel);
+        taskListElement.append(dateLabel); // NEW
+
+      }
+
+      if (task.project) {
+        const projectLabel = $("<span>", {
+          class: "label projectLabel",
+          text: task.project,
+        });
+        // taskListElementBottom.append(projectLabel); 
+        taskListElement.append(projectLabel); // NEW
+      }
+
+      // taskListElement.append(taskListElementTop, taskListElementBottom);
 
       const completeButton = $("<button>", {
         class: "completeButton",
@@ -271,51 +316,14 @@ function displayTasks() {
         updatePriorityMenus();
       });
 
-      taskListElementTop.append(taskName, completeButton);
+      // taskListElementTop.append(taskName, completeButton);
 
-      const taskListElementBottom = $("<div>", {
-        class:
-          "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1 gap-y-4",
-      });
+      // const taskListElementBottom = $("<div>", {
+      //   class:
+      //     "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1 gap-y-4",
+      // });
 
-      if (task.priority) {
-        let priorityClass = "";
-        switch (task.priority) {
-          case "High":
-            priorityClass = "high-priority";
-            break;
-          case "Medium":
-            priorityClass = "medium-priority";
-            break;
-          case "Low":
-            priorityClass = "low-priority";
-            break;
-        }
-
-        const priorityLabel = $("<span>", {
-          class: `label priorityLabel ${priorityClass}`,
-          text: task.priority,
-        });
-        taskListElementBottom.append(priorityLabel);
-      }
-
-      if (task.date) {
-        const dateLabel = $("<span>", {
-          class: "label dateLabel",
-          text: task.date,
-        });
-        taskListElementBottom.append(dateLabel);
-      }
-
-      if (task.project) {
-        const projectLabel = $("<span>", {
-          class: "label projectLabel",
-          text: task.project,
-        });
-        taskListElementBottom.append(projectLabel);
-      }
-
-      taskListElement.append(taskListElementTop, taskListElementBottom);
+      taskListElement.append(completeButton); // NEW
 
       taskListBox.append(taskListElement);
     });
@@ -376,8 +384,6 @@ function loadProjectsModule() {
     class: "listContainer h-5/6",
   });
 
-  $("#contentBoxMain").append(projectButtonContainer, projectsListContainer);
-
   const addProjectButton = $("<button>", {
     id: "addProjectButton",
     class: "addButton",
@@ -386,6 +392,8 @@ function loadProjectsModule() {
   });
 
   projectButtonContainer.append(addProjectButton);
+  $("#contentBoxMain").append(projectButtonContainer, projectsListContainer);
+
 
   $("#contentBoxMain").on("click", "#addProjectButton", function () {
     const addProjectBox = $("<div>", {
@@ -464,25 +472,86 @@ function displayProjects() {
     projects.forEach((project, index) => {
         
       const projectLisElement = $("<div>", {
-        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex justify-center items-center w-full gap-x-6",
+        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex justify-center items-center w-full gap-x-4",
       });
 
       const projectName = $("<span>", {
         class: "projectName",
         text: project.name,
-        css: { flex: "3" },
+        css: { flex: "4" },
       });
 
       const viewButton = $("<button>", {
-        class: "viewButton", // provisional
+        class: "viewButton",
         text: "View",
-        css: { flex: "1" },
+        css: { flex: "1.25" },
+      });
+
+      viewButton.on("click", function () {
+        $("#projectButtonContainer").remove();
+        $("#projectsListContainer").remove();
+        $("#contentBoxHeader").html(`Project: ${project.name}`);
+
+        const taskButtonContainer = $("<div>", {
+            id: "taskButtonContainer",
+            class: "buttonContainer flex justify-between",
+          });
+
+          const addTaskInProjectButton = $("<button>", {
+            id: "addTaskInProjectButton",
+            class: "addButton",
+            text: "Add Task to Project",
+            css: { margin: "1rem" },
+          }).attr("tabindex", 0);
+          
+          const goBackButton = $("<button>", {
+            id: "goBackButton",
+            class: "addButton",
+            text: "Go Back",
+            css: { margin: "1rem" },
+          }).attr("tabindex", 0);
+
+          goBackButton.on("click", function () {
+            $("#taskButtonContainer").remove();
+            $("#taskListContainer").remove();
+            $("#contentBoxHeader").html("Projects");
+
+            const projectButtonContainer = $("<div>", {
+                id: "projectButtonContainer",
+                class: "flex-center h-1/6 w-full",
+              });
+
+              const projectsListContainer = $("<div>", {
+                id: "projectsListContainer",
+                class: "listContainer h-5/6",
+              });
+            
+              const addProjectButton = $("<button>", {
+                id: "addProjectButton",
+                class: "addButton",
+                text: "Add Project",
+                tabindex: 0,
+              });
+              projectButtonContainer.append(addProjectButton);
+              $("#contentBoxMain").empty().append(projectButtonContainer, projectsListContainer);
+              loadProjectsModule();
+        });
+    
+          taskButtonContainer.append(addTaskInProjectButton, goBackButton);
+
+          const taskListContainer = $("<div>", {
+            id: "taskListContainer",
+            class: "listContainer",
+          });
+
+          $("#contentBoxMain").empty().append(taskButtonContainer, taskListContainer);
+
       });
 
       const deleteButton = $("<button>", {
         class: "deleteButton",
         text: "Delete",
-        css: { flex: "1" },
+        css: { flex: "1.25" },
       });
 
       deleteButton.on("click", function () {
@@ -507,5 +576,80 @@ class Project {
   }
 }
 
+----------------------------------------
+
+src/localStorage.js:
+
+
+// TASKS
+
+export function saveTask(task) {
+  const tasks = getTasks();
+
+  if (!task.id) {
+    task.id = Date.now().toString();
+  }
+
+  tasks.push(task);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+export function getTasks() {
+  const tasksJSON = localStorage.getItem("tasks");
+  if (tasksJSON) {
+    return JSON.parse(tasksJSON);
+  }
+  return [];
+}
+
+export function deleteTask(taskId) {
+  let tasks = getTasks();
+  const tasksBefore = tasks.length;
+  taskId = taskId.toString();
+  tasks = tasks.filter(task => task.id !== taskId);
+  const tasksAfter = tasks.length;
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  
+  return tasksBefore > tasksAfter;
+}
+
+// PROJECTS
+
+export function saveProject(project) {
+  const projects = getProjects();
+
+  if (!project.id) {
+    project.id = Date.now().toString();
+  }
+
+  projects.push(project);
+  localStorage.setItem("projects", JSON.stringify(projects));
+}
+
+export function getProjects() {
+  const projectsJSON = localStorage.getItem("projects");
+  if (projectsJSON) {
+    return JSON.parse(projectsJSON);
+  }
+  return [];
+}
+
+export function deleteProject(projectId) {
+  let projects = getProjects();
+  const projectsBefore = projects.length;
+  projectId = projectId.toString();
+  projects = projects.filter(project => project.id !== projectId);
+  const projectsAfter = projects.length;
+
+  if (projectsBefore > projectsAfter) {
+    let tasks = getTasks();
+    tasks = tasks.filter(task => task.project !== projectId);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+  localStorage.setItem("projects", JSON.stringify(projects));
+  
+  return projectsBefore > projectsAfter;
+}
 ----------------------------------------
 

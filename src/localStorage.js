@@ -12,12 +12,13 @@ export function saveTask(task) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-export function getTasks() {
+export function getTasks(projectId = null) {
   const tasksJSON = localStorage.getItem("tasks");
-  if (tasksJSON) {
-    return JSON.parse(tasksJSON);
+  let tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
+  if (projectId) {
+    tasks = tasks.filter(task => task.project === projectId);
   }
-  return [];
+  return tasks;
 }
 
 export function deleteTask(taskId) {
@@ -58,6 +59,13 @@ export function deleteProject(projectId) {
   projectId = projectId.toString();
   projects = projects.filter(project => project.id !== projectId);
   const projectsAfter = projects.length;
+
+  if (projectsBefore > projectsAfter) {
+    let tasks = getTasks();
+    tasks = tasks.filter(task => task.project !== projectId);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
   localStorage.setItem("projects", JSON.stringify(projects));
   
   return projectsBefore > projectsAfter;

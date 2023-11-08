@@ -1,5 +1,6 @@
 import { css } from "jquery";
 import { saveProject, getProjects, deleteProject } from "./localStorage.js";
+import loadTasksModule from "./tasks.js";
 
 function loadProjectsModule() {
   $("#contentBoxHeader").empty();
@@ -175,6 +176,15 @@ function displayProjects() {
             id: "taskListContainer",
             class: "listContainer",
           });
+
+
+          const taskListBox = $("<div>", {
+            id: "taskListBox",
+            class: "box",
+            text: "Tasks",
+          });
+
+          taskListContainer.append(taskListBox);
 
           $("#contentBoxMain").empty().append(taskButtonContainer, taskListContainer);
 
