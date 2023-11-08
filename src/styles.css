@@ -347,6 +347,22 @@ body {
     font-size: 1rem;
 }
 
+.label2 {
+    border-radius: 15px;
+    background-color: #BFDBFE;
+    appearance: none;
+    padding: 5px 10px;
+    flex: 1;
+    color: #4B5563;
+    height: 2.5rem;
+    max-height: 2.5rem;
+    font-size: 1rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .selector:hover {
     transform: scale(1.1);
 }
@@ -633,7 +649,7 @@ input[type="date"].has-date::before {
 
     .selector {
         margin-bottom: 10px;
-        flex-basis: 100%;
+        /* flex-basis: 100%; */
         margin-right: 5px;
     }
 

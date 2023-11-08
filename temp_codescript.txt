@@ -215,8 +215,8 @@ function setTaskId() {
   return Date.now().toString();
 }
 
-export function displayTasks() {
-  const tasks = getTasks();
+export function displayTasks(projectId = null, priority = null) {
+  const tasks = getTasks(projectId, priority);
 
   const tasksListContainer = $("#tasksListContainer");
   tasksListContainer.empty();
@@ -460,6 +460,12 @@ function displayProjects() {
     });
 
     projects.forEach((project, index) => {
+        const tasks = getTasks();
+
+      const projectTaskCount = tasks.filter(
+        (task) => task.project === project.name
+      ).length;
+
       const projectLisElement = $("<div>", {
         class:
           "taskListElement" +
@@ -470,13 +476,20 @@ function displayProjects() {
       const projectName = $("<span>", {
         class: "projectName",
         text: project.name,
-        css: { flex: "4" },
+        css: { flex: "10" },
+      });
+
+      const taskCountDisplay = $("<span>", {
+        id: "taskCountDisplay",
+        class: "label",
+        text: `Tasks: ${projectTaskCount}`,
+        css: { flex: "3" },
       });
 
       const viewButton = $("<button>", {
         class: "viewButton",
         text: "View",
-        css: { flex: "1.25" },
+        css: { flex: "3" },
       });
 
       viewButton.on("click", function () {
@@ -547,13 +560,13 @@ function displayProjects() {
         tasksListContainer.append(taskListBox);
 
         $("#contentBoxMain").append(projectButtonContainer, tasksListContainer);
-        displayTasks();
+        displayTasks(project.name);
       });
 
       const deleteButton = $("<button>", {
         class: "deleteButton",
         text: "Delete",
-        css: { flex: "1.25" },
+        css: { flex: "3" },
       });
 
       deleteButton.on("click", function () {
@@ -561,12 +574,19 @@ function displayProjects() {
         displayProjects();
       });
 
-      projectLisElement.append(projectName, viewButton, deleteButton);
+      projectLisElement.append(
+        projectName,
+        taskCountDisplay,
+        viewButton,
+        deleteButton
+      );
       projectListBox.append(projectLisElement);
     });
     projectsListContainer.append(projectListBox);
+  } 
+    
   }
-}   
+
 
 export default loadProjectsModule;
 
@@ -576,6 +596,7 @@ class Project {
     this.name = name;
   }
 }
+
 ----------------------------------------
 
 src/localStorage.js:
@@ -594,16 +615,19 @@ export function saveTask(task) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-export function getTasks(projectId = null) {
+export function getTasks(projectName = null, priority = null) {
   const tasksJSON = localStorage.getItem("tasks");
   let tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
-  console.log("All tasks:", tasks);
 
-  if (projectId) {
-    tasks = tasks.filter(task => task.project === projectId);
-    console.log(`Filtered tasks for project ID ${projectId}:`, tasks);
+  if (projectName) {
+    tasks = tasks.filter(task => task.project === projectName);
 
   }
+  
+  if (priority) {
+    tasks = tasks.filter(task => task.priority === priority);
+  }
+  
   return tasks;
 }
 

@@ -209,7 +209,7 @@ function loadTasksModule() {
   displayTasks();
 }
 
-function setTaskId() {
+export function setTaskId() {
   return Date.now().toString();
 }
 
@@ -335,7 +335,7 @@ export function updatePriorityMenus() {
   });
 }
 
-class Task {
+export class Task {
   constructor(id, name, priority, date, project) {
     this.id = id;
     this.name = name;
