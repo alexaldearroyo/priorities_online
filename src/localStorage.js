@@ -12,12 +12,19 @@ export function saveTask(task) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-export function getTasks(projectId = null) {
+export function getTasks(projectName = null, priority = null) {
   const tasksJSON = localStorage.getItem("tasks");
   let tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
-  if (projectId) {
-    tasks = tasks.filter(task => task.project === projectId);
+
+  if (projectName) {
+    tasks = tasks.filter(task => task.project === projectName);
+
   }
+  
+  if (priority) {
+    tasks = tasks.filter(task => task.priority === priority);
+  }
+  
   return tasks;
 }
 
@@ -59,13 +66,6 @@ export function deleteProject(projectId) {
   projectId = projectId.toString();
   projects = projects.filter(project => project.id !== projectId);
   const projectsAfter = projects.length;
-
-  if (projectsBefore > projectsAfter) {
-    let tasks = getTasks();
-    tasks = tasks.filter(task => task.project !== projectId);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }
-
   localStorage.setItem("projects", JSON.stringify(projects));
   
   return projectsBefore > projectsAfter;

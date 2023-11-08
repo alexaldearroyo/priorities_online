@@ -1,4 +1,5 @@
 import { saveTask, getTasks, deleteTask, getProjects } from "./localStorage.js";
+// import { displayTasks } from "./display.js";
 
 function loadTasksModule() {
   $("#contentBoxHeader").empty();
@@ -141,6 +142,7 @@ function loadTasksModule() {
         $("#addTaskBox").remove();
         $("#contentBoxMain").prepend(taskButtonContainer);
         $("#taskButtonContainer").append(addTaskButton);
+        // $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);
 
         displayTasks();
       }
@@ -211,10 +213,11 @@ function setTaskId() {
   return Date.now().toString();
 }
 
-function displayTasks() {
-  const tasks = getTasks();
-  const taskListContainer = $("#tasksListContainer");
-  taskListContainer.empty();
+export function displayTasks(projectId = null, priority = null) {
+  const tasks = getTasks(projectId, priority);
+
+  const tasksListContainer = $("#tasksListContainer");
+  tasksListContainer.empty();
 
   if (tasks.length > 0) {
     tasks.sort((a, b) => b.id - a.id);
@@ -255,7 +258,6 @@ function displayTasks() {
           class: `label priorityLabel ${priorityClass}`,
           text: task.priority,
         });
-        // taskListElementBottom.append(priorityLabel);
         taskListElement.append(priorityLabel);
       }
 
@@ -309,10 +311,9 @@ function displayTasks() {
       taskListBox.append(taskListElement);
     });
 
-    taskListContainer.append(taskListBox);
+    tasksListContainer.append(taskListBox);
   }
   updatePriorityMenus();
-  return mainContainer;
 }
 
 export default loadTasksModule;
@@ -343,3 +344,4 @@ class Task {
     this.project = project;
   }
 }
+

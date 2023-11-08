@@ -1,6 +1,10 @@
-import { css } from "jquery";
-import { saveProject, getProjects, deleteProject } from "./localStorage.js";
-import loadTasksModule from "./tasks.js";
+import {
+  getTasks,
+  saveProject,
+  getProjects,
+  deleteProject,
+} from "./localStorage.js";
+import { displayTasks } from "./tasks.js";
 
 function loadProjectsModule() {
   $("#contentBoxHeader").empty();
@@ -26,7 +30,6 @@ function loadProjectsModule() {
 
   projectButtonContainer.append(addProjectButton);
   $("#contentBoxMain").append(projectButtonContainer, projectsListContainer);
-
 
   $("#contentBoxMain").on("click", "#addProjectButton", function () {
     const addProjectBox = $("<div>", {
@@ -64,7 +67,7 @@ function loadProjectsModule() {
     projectButtonContainer.replaceWith(addProjectBox);
 
     createProjectButton.off("click").on("click", function () {
-        const id = setProjectId();
+      const id = setProjectId();
       const name = projectInputBox.val();
 
       if (name.trim() !== "") {
@@ -103,21 +106,36 @@ function displayProjects() {
     });
 
     projects.forEach((project, index) => {
-        
+        const tasks = getTasks();
+
+      const projectTaskCount = tasks.filter(
+        (task) => task.project === project.name
+      ).length;
+
       const projectLisElement = $("<div>", {
-        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex justify-center items-center w-full gap-x-4",
+        class:
+          "taskListElement" +
+          (index < projects.length - 1 ? " project-separator" : "") +
+          " flex justify-center items-center w-full gap-x-4",
       });
 
       const projectName = $("<span>", {
         class: "projectName",
         text: project.name,
-        css: { flex: "4" },
+        css: { flex: "10" },
+      });
+
+      const taskCountDisplay = $("<span>", {
+        id: "taskCountDisplay",
+        class: "label",
+        text: `Tasks: ${projectTaskCount}`,
+        css: { flex: "3" },
       });
 
       const viewButton = $("<button>", {
         class: "viewButton",
         text: "View",
-        css: { flex: "1.25" },
+        css: { flex: "3" },
       });
 
       viewButton.on("click", function () {
@@ -125,89 +143,96 @@ function displayProjects() {
         $("#projectsListContainer").remove();
         $("#contentBoxHeader").html(`Project: ${project.name}`);
 
-        const taskButtonContainer = $("<div>", {
-            id: "taskButtonContainer",
-            class: "buttonContainer flex justify-between",
-          });
-
-          const addTaskInProjectButton = $("<button>", {
-            id: "addTaskInProjectButton",
-            class: "addButton",
-            text: "Add Task to Project",
-            css: { margin: "1rem" },
-          }).attr("tabindex", 0);
-          
-          const goBackButton = $("<button>", {
-            id: "goBackButton",
-            class: "addButton",
-            text: "Go Back",
-            css: { margin: "1rem" },
-          }).attr("tabindex", 0);
-
-          goBackButton.on("click", function () {
-            $("#taskButtonContainer").remove();
-            $("#taskListContainer").remove();
-            $("#contentBoxHeader").html("Projects");
-
-            const projectButtonContainer = $("<div>", {
-                id: "projectButtonContainer",
-                class: "flex-center h-1/6 w-full",
-              });
-
-              const projectsListContainer = $("<div>", {
-                id: "projectsListContainer",
-                class: "listContainer h-5/6",
-              });
-            
-              const addProjectButton = $("<button>", {
-                id: "addProjectButton",
-                class: "addButton",
-                text: "Add Project",
-                tabindex: 0,
-              });
-              projectButtonContainer.append(addProjectButton);
-              $("#contentBoxMain").empty().append(projectButtonContainer, projectsListContainer);
-              loadProjectsModule();
+        const projectButtonContainer = $("<div>", {
+          id: "projectButtonContainer",
+          class: "buttonContainer flex justify-between",
         });
-    
-          taskButtonContainer.append(addTaskInProjectButton, goBackButton);
 
-          const taskListContainer = $("<div>", {
-            id: "taskListContainer",
-            class: "listContainer",
+        const addTaskInProjectButton = $("<button>", {
+          id: "addTaskInProjectButton",
+          class: "addButton",
+          text: "Add Task to Project",
+          css: { margin: "1rem" },
+        }).attr("tabindex", 0);
+
+        const goBackButton = $("<button>", {
+          id: "goBackButton",
+          class: "addButton",
+          text: "Go Back",
+          css: { margin: "1rem" },
+        }).attr("tabindex", 0);
+
+        goBackButton.on("click", function () {
+          $("#projectButtonContainer").remove();
+          $("#tasksListContainer").remove();
+          $("#contentBoxHeader").html("Projects");
+
+          const projectButtonContainer = $("<div>", {
+            id: "projectButtonContainer",
+            class: "flex-center h-1/6 w-full",
           });
 
-
-          const taskListBox = $("<div>", {
-            id: "taskListBox",
-            class: "box",
-            text: "Tasks",
+          const projectsListContainer = $("<div>", {
+            id: "projectsListContainer",
+            class: "listContainer h-5/6",
           });
 
-          taskListContainer.append(taskListBox);
+          const addProjectButton = $("<button>", {
+            id: "addProjectButton",
+            class: "addButton",
+            text: "Add Project",
+            tabindex: 0,
+          });
+          projectButtonContainer.append(addProjectButton);
+          $("#contentBoxMain")
+            .empty()
+            .append(projectButtonContainer, projectsListContainer);
+          loadProjectsModule();
+        });
 
-          $("#contentBoxMain").empty().append(taskButtonContainer, taskListContainer);
+        projectButtonContainer.append(addTaskInProjectButton, goBackButton);
 
+        const tasksListContainer = $("<div>", {
+          id: "tasksListContainer",
+          class: "listContainer",
+        });
+
+        const taskListBox = $("<div>", {
+          id: "taskListBox",
+          class: "box",
+          text: "Tasks",
+        });
+
+        tasksListContainer.append(taskListBox);
+
+        $("#contentBoxMain").append(projectButtonContainer, tasksListContainer);
+        displayTasks(project.name);
       });
 
       const deleteButton = $("<button>", {
         class: "deleteButton",
         text: "Delete",
-        css: { flex: "1.25" },
+        css: { flex: "3" },
       });
 
       deleteButton.on("click", function () {
         deleteProject(project.id);
-          displayProjects();
+        displayProjects();
       });
-    
-      projectLisElement.append(projectName, viewButton, deleteButton);
+
+      projectLisElement.append(
+        projectName,
+        taskCountDisplay,
+        viewButton,
+        deleteButton
+      );
       projectListBox.append(projectLisElement);
     });
     projectsListContainer.append(projectListBox);
-
+  } 
+    
   }
-}
+
 
 export default loadProjectsModule;
 
