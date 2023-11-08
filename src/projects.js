@@ -104,19 +104,19 @@ function displayProjects() {
     projects.forEach((project, index) => {
         
       const projectLisElement = $("<div>", {
-        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex justify-center items-center w-full gap-x-6",
+        class: "taskListElement" + (index < projects.length - 1 ? " project-separator" : "") + " flex justify-center items-center w-full gap-x-4",
       });
 
       const projectName = $("<span>", {
         class: "projectName",
         text: project.name,
-        css: { flex: "3" },
+        css: { flex: "4" },
       });
 
       const viewButton = $("<button>", {
         class: "viewButton",
         text: "View",
-        css: { flex: "1" },
+        css: { flex: "1.25" },
       });
 
       viewButton.on("click", function () {
@@ -166,8 +166,7 @@ function displayProjects() {
               });
               projectButtonContainer.append(addProjectButton);
               $("#contentBoxMain").empty().append(projectButtonContainer, projectsListContainer);
-              displayProjects();
-
+              loadProjectsModule();
         });
     
           taskButtonContainer.append(addTaskInProjectButton, goBackButton);
@@ -184,7 +183,7 @@ function displayProjects() {
       const deleteButton = $("<button>", {
         class: "deleteButton",
         text: "Delete",
-        css: { flex: "1" },
+        css: { flex: "1.25" },
       });
 
       deleteButton.on("click", function () {

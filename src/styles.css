@@ -467,7 +467,7 @@ input[type="date"].has-date::before {
 }
 
 .completeButton {
-    border-radius: 0 12px 0 12px;
+    border-radius: 12px;
     background-color: #BE123C;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     height: 2.5rem;
@@ -475,6 +475,7 @@ input[type="date"].has-date::before {
     font-size: 1rem;
     width: 6rem;
     height: 2.25rem;
+    margin-left: 1rem;
 }
 
 .viewButton {
@@ -483,7 +484,7 @@ input[type="date"].has-date::before {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     height: 2.25rem;
     color: #374151;
-    max-width: 6rem;
+    width: 6rem;
     max-height: 2.5rem;
     font-size: 1rem;
 }
@@ -494,7 +495,7 @@ input[type="date"].has-date::before {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     height: 2.25rem;
     color: #FECDD3;
-    max-width: 6rem;
+    width: 6rem;
     max-height: 2.5rem;
     font-size: 1rem;
 }
@@ -514,43 +515,53 @@ input[type="date"].has-date::before {
 
 .label {
     background-color: #BFDBFE;
-    border-radius: 15px;
+    border-radius: 12px;
     padding: 5px 20px;
     color: #4B5563;
     font-size: 1rem;
-    margin-right: 1rem;
+    margin-left: 1rem;
     min-width: 5rem;
     text-align: center;
 }
 
-.taskListElementBottom .high-priority {
+.taskListElement {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    row-gap: 0.75rem;
+}
+
+.taskListElement .high-priority {
     background-color: #EF4444;
     color: #fee2e2;
 }
 
-.taskListElementBottom .medium-priority {
+.taskListElement .medium-priority {
     background-color: #FBBF24;
     color: #374151;
 }
 
-.taskListElementBottom .low-priority {
+.taskListElement .low-priority {
     background-color: #0EA5E9;
     color: #e0f2fe;
 }
 
-/* Define background colors for different priority levels */
-.box-high-priority {
-    background-color: red; /* or any color you want for high priority */
-  }
+.taskName {
+    flex-grow: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 1rem;
+    row-gap: 20px;
+}
   
-  .box-medium-priority {
-    background-color: yellow; /* or any color you want for medium priority */
-  }
-  
-  .box-low-priority {
-    background-color: green; /* or any color you want for low priority */
-  }
-  
+/* .taskDetails {
+    display: flex;
+    flex-grow: 2;
+    justify-content: flex-end;
+} */
 
 /* RESPONSIVENESS */
 
@@ -622,6 +633,12 @@ input[type="date"].has-date::before {
         margin-right: 5px;
     }
 
+    .taskListElement {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+    }
 
 }
 

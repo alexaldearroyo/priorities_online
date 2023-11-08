@@ -230,14 +230,59 @@ function displayTasks() {
           " flex flex-col",
       });
 
-      const taskListElementTop = $("<div>", {
-        class: "taskListElementTop flex justify-between items-center w-full mb-1",
-      });
+      // const taskListElementTop = $("<div>", {
+      //   class: "taskListElementTop flex justify-between items-center w-full mb-1",
+      // });
 
       const taskName = $("<span>", {
-        class: "taskName",
+        class: "taskName", // NEW FLEX
         text: task.name,
       });
+
+      taskListElement.append(taskName); // NEW
+
+      if (task.priority) {
+        let priorityClass = "";
+        switch (task.priority) {
+          case "High":
+            priorityClass = "high-priority";
+            break;
+          case "Medium":
+            priorityClass = "medium-priority";
+            break;
+          case "Low":
+            priorityClass = "low-priority";
+            break;
+        }
+
+        const priorityLabel = $("<span>", {
+          class: `label priorityLabel ${priorityClass}`,
+          text: task.priority,
+        });
+        // taskListElementBottom.append(priorityLabel);
+        taskListElement.append(priorityLabel); // NEW
+      }
+
+      if (task.date) {
+        const dateLabel = $("<span>", {
+          class: "label dateLabel",
+          text: task.date,
+        });
+        // taskListElementBottom.append(dateLabel);
+        taskListElement.append(dateLabel); // NEW
+
+      }
+
+      if (task.project) {
+        const projectLabel = $("<span>", {
+          class: "label projectLabel",
+          text: task.project,
+        });
+        // taskListElementBottom.append(projectLabel); 
+        taskListElement.append(projectLabel); // NEW
+      }
+
+      // taskListElement.append(taskListElementTop, taskListElementBottom);
 
       const completeButton = $("<button>", {
         class: "completeButton",
@@ -269,51 +314,14 @@ function displayTasks() {
         updatePriorityMenus();
       });
 
-      taskListElementTop.append(taskName, completeButton);
+      // taskListElementTop.append(taskName, completeButton);
 
-      const taskListElementBottom = $("<div>", {
-        class:
-          "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1 gap-y-4",
-      });
+      // const taskListElementBottom = $("<div>", {
+      //   class:
+      //     "taskListElementBottom flex flex-wrap sm:flex-row justify-start items-center w-full mt-1 gap-y-4",
+      // });
 
-      if (task.priority) {
-        let priorityClass = "";
-        switch (task.priority) {
-          case "High":
-            priorityClass = "high-priority";
-            break;
-          case "Medium":
-            priorityClass = "medium-priority";
-            break;
-          case "Low":
-            priorityClass = "low-priority";
-            break;
-        }
-
-        const priorityLabel = $("<span>", {
-          class: `label priorityLabel ${priorityClass}`,
-          text: task.priority,
-        });
-        taskListElementBottom.append(priorityLabel);
-      }
-
-      if (task.date) {
-        const dateLabel = $("<span>", {
-          class: "label dateLabel",
-          text: task.date,
-        });
-        taskListElementBottom.append(dateLabel);
-      }
-
-      if (task.project) {
-        const projectLabel = $("<span>", {
-          class: "label projectLabel",
-          text: task.project,
-        });
-        taskListElementBottom.append(projectLabel);
-      }
-
-      taskListElement.append(taskListElementTop, taskListElementBottom);
+      taskListElement.append(completeButton); // NEW
 
       taskListBox.append(taskListElement);
     });
