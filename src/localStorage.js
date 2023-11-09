@@ -12,7 +12,7 @@ export function saveTask(task) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-export function getTasks(projectName = null, priority = null) {
+export function getTasks(projectName = null, priority = null, date = null) {
   const tasksJSON = localStorage.getItem("tasks");
   let tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
 
@@ -20,9 +20,13 @@ export function getTasks(projectName = null, priority = null) {
     tasks = tasks.filter(task => task.project === projectName);
 
   }
-  
+
   if (priority) {
     tasks = tasks.filter(task => task.priority === priority);
+  }
+
+  if (date) {
+    tasks = tasks.filter(task => task.date === date);
   }
   
   return tasks;

@@ -133,20 +133,20 @@ function displayProjects() {
       const projectName = $("<span>", {
         class: "projectName",
         text: project.name,
-        css: { flex: "10" },
+        css: { flex: "1" },
       });
 
       const taskCountDisplay = $("<span>", {
         id: "taskCountDisplay",
         class: "label",
         text: `Tasks: ${projectTaskCount}`,
-        css: { flex: "3" },
+        // css: { flex: "3" },
       });
 
       const viewButton = $("<button>", {
         class: "viewButton",
         text: "View",
-        css: { flex: "3" },
+        // css: { flex: "3" },
       });
 
       viewButton.on("click", function () {
@@ -409,7 +409,7 @@ function displayProjects() {
       const deleteButton = $("<button>", {
         class: "deleteButton",
         text: "Delete",
-        css: { flex: "3" },
+        // css: { flex: "3" },
       });
 
       deleteButton.on("click", function () {
