@@ -1,33 +1,66 @@
-<head><script defer src="bundle.js"></script></head><body class="flex flex-col h-full">
+<!DOCTYPE html>
+<html lang="en">
 
-    <div id="title" class="bg-stone-200 flex-center">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priorities Online</title>
+<script defer src="bundle.js"></script></head>
+
+<body>
+
+    <div id="title" class="bg-stone-200">
         Priorities Online
     </div>
 
-    <div id="mainContainer" class="bg-stone-200 flex-center flex-col">
+    <div id="mainContainer" class="bg-stone-200">
 
-        <div id="mainBox" class="bg-slate-50 shadow-lg flex-center">
-            
-            <div id="sideBar" class="bg-zinc-300 flex-center">
+        <div id="mainBox" class="bg-slate-50 shadow-lg">
+
+            <div id="burgerMenu" class="bg-stone-200 shadow-md">
+                <i class="fas fa-bars text-stone-400 rotate-icon"></i>
+            </div>
+
+            <div id="sideBar" class="bg-zinc-300">
                 <div id="sideBarHeader">
-                    <div id="burgerMenu" class="bg-stone-100 flex-center cursor-pointer">
-                        <i class="fas fa-bars text-stone-400"></i>
+                </div>
+                <div id="sideBarMenu">
+                    <div id="tasksMenu">
+                        <i class="fas fa-tasks text-stone-400"></i> Tasks
+                    </div>
+                    <div id="prioritiesMenu">
+                        <i class="fas fa-chevron-right text-stone-400"></i> Priorities
+                        <div id="prioritiesSubMenu" class="hidden">
+                            <div id="highPriorityMenu">High</div>
+                            <div id="mediumPriorityMenu">Medium</div>
+                            <div id="lowPriorityMenu">Low</div>
+                        </div>
+                    </div>
+                    <div id="projectsMenu">
+                        <i class="fas fa-folder text-stone-400"></i> Projects
+                    </div>
+                    <div id="datesMenu">
+                        <i class="fas fa-calendar text-stone-400"></i> Dates
                     </div>
                 </div>
-                <div id="sideBarMenu">Side Bar Content</div>
             </div>
-            
-            <div id="contentBox" class="bg-slate-50 flex-center">Main Content</div>
+
+            <div id="contentBox" class="bg-slate-50">
+                <div id="contentBoxHeader" class="text-gray-700"></div>
+                <div id="contentBoxMain"></div>
+            </div>
 
         </div>
-        
+
     </div>
 
-    <div id="footer" class="flex-center flex-2 font-arial text-stone-400 text-xs">
-        <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer" class="hover:scale-125 hover:text-stone-500">
-            <i class="fab fa-github"></i>
+    <div id="footer" class="bg-zinc-300">
+        <a href="https://github.com/alexaldearroyo" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github hover:scale-125 hover:brightness-75""></i>
         </a>
         <span>Alex Arroyo © 2023</span>
     </div>
 
 </body>
+
+</html>
