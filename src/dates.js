@@ -30,18 +30,22 @@ function loadDatesModule() {
 
     const calendarView = $('<div/>', { id: 'calendarView' }).appendTo('#contentBoxMain');
 
+    displayCalendar(currentDate);
+
+}
+
+function displayCalendar(date) {
+    $('#calendarView').empty(); 
     const tasks = getTasks();
     const daysWithTasks = tasks.map(task => (new Date(task.date)).getDate());
 
-    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
-    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    const firstDayDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    const firstDayOfMonth = firstDayDate.getDay();
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
     for (let i = 0; i < 6 * 7; i++) {
         const dayElement = $('<div/>', { class: 'dayElement' });
-        const firstDayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        const firstDayOfMonth = firstDayDate.getDay();
         const dayNumber = i - firstDayOfMonth + 1;
-        const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
     
         if (i >= firstDayOfMonth && dayNumber <= daysInMonth) {
             dayElement.text(dayNumber);
@@ -52,18 +56,16 @@ function loadDatesModule() {
             dayElement.addClass('outside-month');
             
             if (i < firstDayOfMonth) {
-                const lastDayOfPrevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+                const lastDayOfPrevMonth = new Date(date.getFullYear(), date.getMonth(), 0);
                 const dayPrevMonth = lastDayOfPrevMonth.getDate() - (firstDayOfMonth - i) + 1;
                 dayElement.text(dayPrevMonth);
             } else {
-        
                 const dayNextMonth = dayNumber - daysInMonth;
                 dayElement.text(dayNextMonth);
             }
         }
-        dayElement.appendTo(calendarView);
+        dayElement.appendTo('#calendarView');
     }
-    
 }
 
 
