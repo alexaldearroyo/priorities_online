@@ -13,7 +13,7 @@ function loadTasksModule() {
   });
   const tasksListContainer = $("<div>", {
     id: "tasksListContainer",
-    class: "listContainer h-5/6",
+    class: "listContainer h-5/6 ",
   });
 
   $("#contentBoxMain").append(taskButtonContainer, tasksListContainer);

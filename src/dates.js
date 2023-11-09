@@ -4,6 +4,8 @@ function loadDatesModule() {
   $("#contentBoxMain").empty();
   $("#contentBoxHeader").empty().html("Dates");
 
+  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
   const currentDate = new Date();
   const monthNames = [
     "January",
@@ -35,6 +37,14 @@ function loadDatesModule() {
     id: "nextMonth",
   }).appendTo(monthTitle);
 
+
+  const weekDayNames = $("<div/>", { class: "weekDayNames" }).appendTo("#contentBoxMain");
+  weekDays.forEach(day => {
+    $("<div/>", { class: "week-day-name" }).text(day).appendTo(weekDayNames);
+  });
+
+
+
   $("#prevMonth").click(function () {
     currentDate.setMonth(currentDate.getMonth() - 1);
     monthText.text(
@@ -51,18 +61,24 @@ function loadDatesModule() {
     displayCalendar(currentDate);
   });
 
-  const calendarView = $("<div/>", { id: "calendarView" }).appendTo(
-    "#contentBoxMain"
-  );
+
+
 
   displayCalendar(currentDate);
 }
 
+
+
 function displayCalendar(date) {
+
   $("#calendarView").empty();
   const tasks = getTasks();
 
   const taskDates = tasks.map((task) => new Date(task.date).toDateString());
+
+  const calendarView = $("<div/>", { id: "calendarView" }).appendTo(
+    "#contentBoxMain"
+  );
 
   const firstDayDate = new Date(date.getFullYear(), date.getMonth(), 1);
   const firstDayOfMonth = firstDayDate.getDay();
@@ -87,6 +103,7 @@ function displayCalendar(date) {
 
       if (taskDates.includes(dayDate)) {
         dayElement.addClass("with-task");
+        
       }
     } else {
       dayElement.addClass("outside-month");
