@@ -29,4 +29,4 @@ http://alexaldearroyo.github.io/priorities_online
 - **Amplify Calendar Functionalities**: Enhance the calendar features to include more views (weekly, monthly, agenda) and task-related operations directly from the calendar interface.
 
 
-### Alex Arroyo © 2023
+#### Alex Arroyo © 2023
