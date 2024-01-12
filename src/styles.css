@@ -393,7 +393,6 @@ body {
     color: #4B5563;
     transition: background-color 0.3s, transform 0.3s;
     margin-top: 1rem;
-    /* Aumenta para más espacio en la parte superior */
     margin-bottom: 1rem;
 }
 

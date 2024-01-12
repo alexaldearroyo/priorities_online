@@ -1,7 +1,7 @@
 import { displayTasks, updatePriorityMenus } from "./tasks";
 
 export default function loadPriorities(priority) {
-  // Configura el encabezado y el contenedor principal
+  // Set up the header and main container
   $("#contentBoxHeader").empty().html(`Priorities: ${priority}`);
   $("#contentBoxMain").empty().addClass("flex flex-col");
 
